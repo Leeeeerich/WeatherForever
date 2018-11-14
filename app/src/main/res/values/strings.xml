@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Weather Forever</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="weather_today">Погода на сегодня</string>
+    <string name="weather_week">Погода на неделю</string>
+    <string name="settings">Настройки</string>
+    <string name="exit">Выход</string>
+    
+    <string name="update_only_wifi">Обновлять только по Wi-Fi</string>
+    <string name="update_at_startup">Обновлять при старте</string>
+    <string name="ask_when_leaving">Спрашивать при входе</string>
+    
+    <string name="pressure">Давление:</string>
+    <string name="humidity">Влажность:</string>
+    <string name="wind">Ветер:</string>
+    <string name="temperature">Температура:</string>
+    <string name="mm">мм</string>
+    <string name="percent">%</string>
+    <string name="wind_speed">м/сек</string>
+</resources>
