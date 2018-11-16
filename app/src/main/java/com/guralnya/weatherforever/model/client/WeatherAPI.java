@@ -1,7 +1,7 @@
 package com.guralnya.weatherforever.model.client;
 
 import com.guralnya.weatherforever.model.objects.WeatherDay;
-import com.guralnya.weatherforever.model.objects.WeatherForecast;
+import com.guralnya.weatherforever.model.objects.WeatherWeek;
 
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -17,6 +17,13 @@ public class WeatherAPI {
     public interface ApiInterface {
         @GET("weather")
         Call<WeatherDay> getToday(
+                @Query("q") String city,
+                @Query("units") String units,
+                @Query("appid") String appid
+        );
+
+        @GET("weather")
+        Call<WeatherDay> getToday(
                 @Query("lat") Double lat,
                 @Query("lon") Double lon,
                 @Query("units") String units,
@@ -24,7 +31,14 @@ public class WeatherAPI {
         );
 
         @GET("forecast")
-        Call<WeatherForecast> getForecast(
+        Call<WeatherWeek> getForecast(
+                @Query("q") String city,
+                @Query("units") String units,
+                @Query("appid") String appid
+        );
+
+        @GET("forecast")
+        Call<WeatherWeek> getForecast(
                 @Query("lat") Double lat,
                 @Query("lon") Double lon,
                 @Query("units") String units,
