@@ -19,7 +19,7 @@
     <string name="pressure">Давление:</string>
     <string name="humidity">Влажность:</string>
     <string name="wind">Ветер:</string>
-    <string name="temperature">Температура:</string>
+    <string name="minTemperature">Температура:</string>
     <string name="mm">мм</string>
     <string name="percent">%</string>
     <string name="wind_speed">м/сек</string>

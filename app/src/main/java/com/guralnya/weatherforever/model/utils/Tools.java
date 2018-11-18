@@ -27,6 +27,7 @@ public class Tools {
             if (simpleDateFormat.format(weatherDay.getTimestamp() * 1000).equals("00")) {
                 WeatherDayRealm weatherDayRealm = new WeatherDayRealm(
                         String.valueOf(minTemp),
+                        String.valueOf(maxTemp),
                         String.valueOf(pressure),
                         String.valueOf(humidity),
                         weatherDay.getWindSpeed(),

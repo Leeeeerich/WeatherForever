@@ -33,6 +33,15 @@ public class WeekFragmentRealmAdapter extends RealmRecyclerViewAdapter<WeatherDa
         this.mContext = context;
     }
 
+    public interface ClickItemListener{
+        void onClickItemListener(long timeStamp);
+    }
+    private ClickItemListener mClickItemListener;
+
+    public void setClickItemListener(ClickItemListener clickItemListener) {
+        mClickItemListener = clickItemListener;
+    }
+
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -50,7 +59,7 @@ public class WeekFragmentRealmAdapter extends RealmRecyclerViewAdapter<WeatherDa
         SimpleDateFormat dataFormat = new SimpleDateFormat("EEEE', 'dd MMMM");
         myViewHolder.mDate.setText(dataFormat.format(item.getTimeStamp() * 1000));
 
-        myViewHolder.mTemperature.setText(item.getTemperature());
+        myViewHolder.mTemperature.setText(item.getMinTemperature());
         myViewHolder.mHumidity.setText(item.getHumidity());
 
         String imageURL = item.getIconUrl();
@@ -59,8 +68,13 @@ public class WeekFragmentRealmAdapter extends RealmRecyclerViewAdapter<WeatherDa
                 .load(imageURL)
                 .into(myViewHolder.mWeather);
 
+        myViewHolder.mCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mClickItemListener.onClickItemListener(item.getTimeStamp());
+            }
+        });
     }
-
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
@@ -80,5 +94,7 @@ public class WeekFragmentRealmAdapter extends RealmRecyclerViewAdapter<WeatherDa
 
             mCardView = itemView.findViewById(R.id.cardView);
         }
+
+
     }
 }

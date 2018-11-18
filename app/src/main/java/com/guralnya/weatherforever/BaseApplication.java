@@ -18,7 +18,7 @@ public class BaseApplication extends Application {
         Realm.setDefaultConfiguration(config);
 
         //Realm.deleteRealm(config);
-        
+
         DownloadWeather.getWeatherWeekByCity("Kremenchuk", "804");
     }
 }

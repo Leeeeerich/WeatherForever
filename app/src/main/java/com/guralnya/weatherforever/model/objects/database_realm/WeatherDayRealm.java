@@ -5,7 +5,8 @@ import io.realm.annotations.PrimaryKey;
 
 public class WeatherDayRealm extends RealmObject {
 
-    private String mTemperature;
+    private String mMinTemperature;
+    private String mMaxTemperature;
     private String mPressure;
     private String mHumidity;
     private String mWindSpeed;
@@ -18,14 +19,15 @@ public class WeatherDayRealm extends RealmObject {
     public WeatherDayRealm() {
     }
 
-    public WeatherDayRealm(String temperature,
-                           String pressure,
+    public WeatherDayRealm(String minTemperature,
+                           String maxTemperature, String pressure,
                            String humidity,
                            String windSpeed,
                            String city,
                            String iconUrl,
                            long timeStamp) {
-        mTemperature = temperature;
+        mMinTemperature = minTemperature;
+        mMaxTemperature = maxTemperature;
         mPressure = pressure;
         mHumidity = humidity;
         mWindSpeed = windSpeed;
@@ -34,12 +36,12 @@ public class WeatherDayRealm extends RealmObject {
         mTimeStamp = timeStamp;
     }
 
-    public String getTemperature() {
-        return mTemperature;
+    public String getMinTemperature() {
+        return mMinTemperature;
     }
 
-    public void setTemperature(String temperature) {
-        mTemperature = temperature;
+    public void setMinTemperature(String minTemperature) {
+        mMinTemperature = minTemperature;
     }
 
     public String getPressure() {
@@ -90,4 +92,11 @@ public class WeatherDayRealm extends RealmObject {
         mTimeStamp = timeStamp;
     }
 
+    public String getMaxTemperature() {
+        return mMaxTemperature;
+    }
+
+    public void setMaxTemperature(String maxTemperature) {
+        mMaxTemperature = maxTemperature;
+    }
 }
