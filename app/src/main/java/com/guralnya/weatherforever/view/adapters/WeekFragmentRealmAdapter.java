@@ -1,5 +1,6 @@
 package com.guralnya.weatherforever.view.adapters;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
@@ -10,13 +11,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.guralnya.weatherforever.R;
 import com.guralnya.weatherforever.model.objects.database_realm.WeatherDayRealm;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.text.SimpleDateFormat;
 
 import io.realm.OrderedRealmCollection;
 import io.realm.RealmRecyclerViewAdapter;
@@ -25,25 +24,13 @@ import io.realm.RealmRecyclerViewAdapter;
 public class WeekFragmentRealmAdapter extends RealmRecyclerViewAdapter<WeatherDayRealm,
         WeekFragmentRealmAdapter.MyViewHolder> {
 
-    private boolean inDeletionMode = false;
-    private Set<Integer> countersToDelete = new HashSet<>();
+    private Context mContext;
 
     public WeekFragmentRealmAdapter(@Nullable OrderedRealmCollection<WeatherDayRealm> data,
-                                    boolean autoUpdate) {
-        super(data, autoUpdate);
+                                    Context context) {
+        super(data, true);
         setHasStableIds(true);
-    }
-
-    void enableDeletionMode(boolean enabled) {
-        inDeletionMode = enabled;
-        if (!enabled) {
-            countersToDelete.clear();
-        }
-        notifyDataSetChanged();
-    }
-
-    Set<Integer> getCountersToDelete() {
-        return countersToDelete;
+        this.mContext = context;
     }
 
     @NonNull
@@ -60,7 +47,17 @@ public class WeekFragmentRealmAdapter extends RealmRecyclerViewAdapter<WeatherDa
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int position) {
         final WeatherDayRealm item = getItem(position);
 
-        //myViewHolder.mDate.setText();
+        SimpleDateFormat dataFormat = new SimpleDateFormat("EEEE', 'dd MMMM");
+        myViewHolder.mDate.setText(dataFormat.format(item.getTimeStamp() * 1000));
+
+        myViewHolder.mTemperature.setText(item.getTemperature());
+        myViewHolder.mHumidity.setText(item.getHumidity());
+
+        String imageURL = item.getIconUrl();
+        Glide
+                .with(mContext)
+                .load(imageURL)
+                .into(myViewHolder.mWeather);
 
     }
 
@@ -69,7 +66,7 @@ public class WeekFragmentRealmAdapter extends RealmRecyclerViewAdapter<WeatherDa
 
         private ImageView mWeather;
         private TextView mDate;
-        private TextView mTempature;
+        private TextView mTemperature;
         private TextView mHumidity;
         private CardView mCardView;
 
@@ -78,7 +75,7 @@ public class WeekFragmentRealmAdapter extends RealmRecyclerViewAdapter<WeatherDa
 
             mWeather = itemView.findViewById(R.id.imWeather);
             mDate = itemView.findViewById(R.id.tvDate);
-            mTempature = itemView.findViewById(R.id.tvTemperature);
+            mTemperature = itemView.findViewById(R.id.tvTemperature);
             mHumidity = itemView.findViewById(R.id.tvHumidity);
 
             mCardView = itemView.findViewById(R.id.cardView);

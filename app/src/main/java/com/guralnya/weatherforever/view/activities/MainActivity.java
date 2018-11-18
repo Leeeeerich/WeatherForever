@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.guralnya.weatherforever.R;
+import com.guralnya.weatherforever.view.fragments.WeekFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -27,7 +28,7 @@ public class MainActivity extends AppCompatActivity
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    //.add(R.id.content_main, HomeFragment.newInstance(null))
+                    .add(R.id.content_main, new WeekFragment())
                     .commit();
         }
 

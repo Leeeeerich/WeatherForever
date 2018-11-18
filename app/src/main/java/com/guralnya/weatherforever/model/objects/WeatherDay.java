@@ -46,22 +46,16 @@ public class WeatherDay {
         this.temp = temp;
         this.desctiption = desctiption;
     }
-/*
-    public Calendar getDate() {
-        Calendar date = Calendar.getInstance();
-        date.setTimeInMillis(timestamp * 1000);
-        return date;
-    }*/
 
     public long getTimestamp() {
         return timestamp;
     }
 
-    public String getTemp() { return String.valueOf(temp.temp); }
+    public int getTemp() { return temp.temp.intValue(); }
 
-    public String getPressure() {return String.valueOf(temp.pressure);}
+    public int getPressure() {return temp.pressure.intValue();}
 
-    public String getHumidity() {return String.valueOf(temp.humidity);}
+    public int getHumidity() {return temp.humidity.intValue();}
 
     public String getWindSpeed() {return String.valueOf(mWind.speed);}
 

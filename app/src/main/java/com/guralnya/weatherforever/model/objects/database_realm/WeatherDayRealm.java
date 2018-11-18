@@ -1,6 +1,7 @@
 package com.guralnya.weatherforever.model.objects.database_realm;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 public class WeatherDayRealm extends RealmObject {
 
@@ -9,24 +10,27 @@ public class WeatherDayRealm extends RealmObject {
     private String mHumidity;
     private String mWindSpeed;
     private String mCity;
-    private String mGetIconUrl;
+    private String mIconUrl;
+
+    @PrimaryKey
     private long mTimeStamp;
 
-    public WeatherDayRealm(){}
+    public WeatherDayRealm() {
+    }
 
     public WeatherDayRealm(String temperature,
                            String pressure,
                            String humidity,
                            String windSpeed,
                            String city,
-                           String getIconUrl,
+                           String iconUrl,
                            long timeStamp) {
         mTemperature = temperature;
         mPressure = pressure;
         mHumidity = humidity;
         mWindSpeed = windSpeed;
         mCity = city;
-        mGetIconUrl = getIconUrl;
+        mIconUrl = iconUrl;
         mTimeStamp = timeStamp;
     }
 
@@ -70,12 +74,12 @@ public class WeatherDayRealm extends RealmObject {
         mCity = city;
     }
 
-    public String getGetIconUrl() {
-        return mGetIconUrl;
+    public String getIconUrl() {
+        return mIconUrl;
     }
 
-    public void setGetIconUrl(String getIconUrl) {
-        mGetIconUrl = getIconUrl;
+    public void setIconUrl(String iconUrl) {
+        mIconUrl = iconUrl;
     }
 
     public long getTimeStamp() {
@@ -85,4 +89,5 @@ public class WeatherDayRealm extends RealmObject {
     public void setTimeStamp(long timeStamp) {
         mTimeStamp = timeStamp;
     }
+
 }

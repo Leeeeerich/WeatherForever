@@ -5,6 +5,8 @@ import android.util.Log;
 import com.guralnya.weatherforever.model.client.WeatherAPI;
 import com.guralnya.weatherforever.model.objects.WeatherDay;
 import com.guralnya.weatherforever.model.objects.WeatherWeek;
+import com.guralnya.weatherforever.model.objects.database_realm.WeatherDayRealm;
+import com.guralnya.weatherforever.model.utils.Tools;
 import com.guralnya.weatherforever.utils.Constants;
 
 import java.util.List;
@@ -26,9 +28,9 @@ public class DownloadWeather {
     }
 
     private void getWeatherToday(String city,
-                                        String country,
-                                        Double lat,
-                                        Double lon) {
+                                 String country,
+                                 Double lat,
+                                 Double lon) {
         if (city != null) {
             Call<WeatherDay> call = WeatherAPI.getClient()
                     .create(WeatherAPI.ApiInterface.class)
@@ -50,7 +52,6 @@ public class DownloadWeather {
             public void onResponse(Call<WeatherDay> call, Response<WeatherDay> response) {
                 Log.e(getClass().getName(), "onResponse");
                 WeatherDay data = response.body();
-                Log.e(getClass().getName(), data.getTimestamp()+"\n"+data.getTemp() + "\n" + data.getPressure() + "\n" + data.getHumidity() + "\n"+ data.getIconUrl() + "\n" + data.getWindSpeed());
                 //TODO callBack data
             }
 
@@ -94,7 +95,7 @@ public class DownloadWeather {
             public void onResponse(Call<WeatherWeek> call, Response<WeatherWeek> response) {
                 Log.e(getClass().getName(), "onResponse");
                 List<WeatherDay> data = response.body().getItems();
-               // addOrUpdateWeatherWeekRep(data);
+                addOrUpdateWeatherWeekRep(Tools.hourlyForecastConvertToDaily(data));
             }
 
             @Override
@@ -104,13 +105,13 @@ public class DownloadWeather {
             }
         });
     }
-/*
-    private static void addOrUpdateWeatherWeekRep(List<WeatherDay> data){
+
+    private static void addOrUpdateWeatherWeekRep(List<WeatherDayRealm> data) {
         RealmConfiguration conf = Realm.getDefaultConfiguration();
         Realm realm = Realm.getInstance(conf);
         realm.beginTransaction();
         realm.insertOrUpdate(data);
         realm.commitTransaction();
-    }*/
+    }
 
 }
