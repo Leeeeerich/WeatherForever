@@ -1,10 +1,8 @@
 package com.guralnya.weatherforever.view.activities;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -14,10 +12,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.guralnya.weatherforever.R;
+import com.guralnya.weatherforever.utils.Constants;
+import com.guralnya.weatherforever.view.fragments.DailyFragment;
+import com.guralnya.weatherforever.view.fragments.IWeekFragment;
 import com.guralnya.weatherforever.view.fragments.WeekFragment;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, IWeekFragment {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,18 +29,9 @@ public class MainActivity extends AppCompatActivity
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.content_main, new WeekFragment())
+                    .add(R.id.content_main, WeekFragment.getInstance())
                     .commit();
         }
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -49,6 +41,8 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        WeekFragment.getInstance().setIWeekFragment(this);
     }
 
     @Override
@@ -108,5 +102,18 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void clickItemListener(long timeStamp) {
+        Bundle bundle = new Bundle();
+        bundle.putLong(Constants.TIME_STAMP, timeStamp);
+        Fragment f = new DailyFragment();
+        f.setArguments(bundle);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.content_main, f)
+                .addToBackStack(Constants.DAILY_FORECAST)
+                .commit();
     }
 }

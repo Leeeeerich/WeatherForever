@@ -16,6 +16,7 @@ import com.guralnya.weatherforever.R;
 import com.guralnya.weatherforever.model.objects.database_realm.WeatherDayRealm;
 
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 import io.realm.OrderedRealmCollection;
 import io.realm.RealmRecyclerViewAdapter;
@@ -33,9 +34,10 @@ public class WeekFragmentRealmAdapter extends RealmRecyclerViewAdapter<WeatherDa
         this.mContext = context;
     }
 
-    public interface ClickItemListener{
+    public interface ClickItemListener {
         void onClickItemListener(long timeStamp);
     }
+
     private ClickItemListener mClickItemListener;
 
     public void setClickItemListener(ClickItemListener clickItemListener) {
@@ -56,7 +58,7 @@ public class WeekFragmentRealmAdapter extends RealmRecyclerViewAdapter<WeatherDa
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int position) {
         final WeatherDayRealm item = getItem(position);
 
-        SimpleDateFormat dataFormat = new SimpleDateFormat("EEEE', 'dd MMMM");
+        SimpleDateFormat dataFormat = new SimpleDateFormat("EEEE', 'dd MMMM", Locale.getDefault());
         myViewHolder.mDate.setText(dataFormat.format(item.getTimeStamp() * 1000));
 
         myViewHolder.mTemperature.setText(item.getMinTemperature());
@@ -94,7 +96,5 @@ public class WeekFragmentRealmAdapter extends RealmRecyclerViewAdapter<WeatherDa
 
             mCardView = itemView.findViewById(R.id.cardView);
         }
-
-
     }
 }

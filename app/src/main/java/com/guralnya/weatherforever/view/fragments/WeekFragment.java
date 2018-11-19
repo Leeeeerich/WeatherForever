@@ -18,14 +18,28 @@ import com.guralnya.weatherforever.view.adapters.WeekFragmentRealmAdapter;
 
 import io.realm.OrderedRealmCollection;
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
 
 public class WeekFragment extends Fragment {
 
     private RecyclerView.Adapter mAdapter;
 
     private Realm mRealm;
-    private RealmConfiguration mRealmConfiguration;
+
+    private static WeekFragment pInstance;
+
+    public static WeekFragment getInstance() {
+
+        if (pInstance == null) {
+            pInstance = new WeekFragment();
+        }
+        return pInstance;
+    }
+
+    private IWeekFragment mIWeekFragment;
+
+    public void setIWeekFragment(IWeekFragment IWeekFragment) {
+        mIWeekFragment = IWeekFragment;
+    }
 
     @Nullable
     @Override
@@ -33,10 +47,8 @@ public class WeekFragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_week, container, false);
-        getActivity().setTitle(R.string.weather_week);
 
-        mRealmConfiguration = Realm.getDefaultConfiguration();
-        mRealm = Realm.getInstance(mRealmConfiguration);
+        mRealm = Realm.getDefaultInstance();
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
@@ -54,6 +66,18 @@ public class WeekFragment extends Fragment {
 
     private void setAdapter(OrderedRealmCollection<WeatherDayRealm> data, Context context) {
         mAdapter = new WeekFragmentRealmAdapter(data, context);
+        ((WeekFragmentRealmAdapter) mAdapter).setClickItemListener(new WeekFragmentRealmAdapter.ClickItemListener() {
+            @Override
+            public void onClickItemListener(long timeStamp) {
+                mIWeekFragment.clickItemListener(timeStamp);
+            }
+        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle(R.string.weather_week);
     }
 
     @Override

@@ -22,5 +22,5 @@
     <string name="minTemperature">Температура:</string>
     <string name="mm">мм</string>
     <string name="percent">%</string>
-    <string name="wind_speed">м/сек</string>
+    <string name="wind_speed"> м/сек</string>
 </resources>
