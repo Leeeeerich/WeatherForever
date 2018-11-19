@@ -14,13 +14,14 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.guralnya.weatherforever.R;
 import com.guralnya.weatherforever.model.objects.database_realm.WeatherDayRealm;
+import com.guralnya.weatherforever.utils.Constants;
+import com.guralnya.weatherforever.view.utils.Tools;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 import io.realm.OrderedRealmCollection;
 import io.realm.RealmRecyclerViewAdapter;
-
 
 public class WeekFragmentRealmAdapter extends RealmRecyclerViewAdapter<WeatherDayRealm,
         WeekFragmentRealmAdapter.MyViewHolder> {
@@ -61,8 +62,10 @@ public class WeekFragmentRealmAdapter extends RealmRecyclerViewAdapter<WeatherDa
         SimpleDateFormat dataFormat = new SimpleDateFormat("EEEE', 'dd MMMM", Locale.getDefault());
         myViewHolder.mDate.setText(dataFormat.format(item.getTimeStamp() * 1000));
 
-        myViewHolder.mTemperature.setText(item.getMinTemperature());
-        myViewHolder.mHumidity.setText(item.getHumidity());
+        myViewHolder.mTemperature.setText(
+                Tools.setPositiveSymbol(item.getMinTemperature()).concat(", " +
+                        Tools.setPositiveSymbol(item.getMaxTemperature())));
+        myViewHolder.mHumidity.setText(item.getHumidity().concat("%"));
 
         String imageURL = item.getIconUrl();
         Glide

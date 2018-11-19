@@ -58,7 +58,7 @@ public class DailyFragment extends Fragment {
                 .equalTo(TIME_STAMP, timeStamp)
                 .findFirst();
 
-        SimpleDateFormat dataFormat = new SimpleDateFormat("EEEE', 'dd MMMM", Locale.getDefault());
+        SimpleDateFormat dataFormat = new SimpleDateFormat("EE', 'dd MMMM", Locale.getDefault());
         getActivity().setTitle(dataFormat.format(weatherDayRealm.getTimeStamp() * 1000));
 
         tvMinTemp.setText(Tools.setPositiveSymbol(weatherDayRealm.getMinTemperature()));

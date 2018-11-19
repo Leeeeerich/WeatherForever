@@ -44,7 +44,14 @@
                 android:text="@string/ask_when_leaving"
                 android:textSize="18sp"
                 android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/etSetCity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
         </LinearLayout>
+
+
     </ScrollView>
 
 </LinearLayout>

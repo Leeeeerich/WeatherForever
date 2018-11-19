@@ -8,13 +8,18 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.guralnya.weatherforever.R;
 import com.guralnya.weatherforever.utils.Constants;
 import com.guralnya.weatherforever.view.fragments.DailyFragment;
 import com.guralnya.weatherforever.view.fragments.IWeekFragment;
+import com.guralnya.weatherforever.view.fragments.SettingsFragment;
 import com.guralnya.weatherforever.view.fragments.WeekFragment;
 
 public class MainActivity extends AppCompatActivity
@@ -83,21 +88,21 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+
+
         if (id == R.id.nav_today) {
             getSupportFragmentManager().beginTransaction()
                     //.add(R.id.content_main, HomeFragment.newInstance(null))
                     .commit();
         } else if (id == R.id.nav_week) {
             getSupportFragmentManager().beginTransaction()
-                    //.add(R.id.content_main, HomeFragment.newInstance(null))
+                    .replace(R.id.content_main, WeekFragment.getInstance(), Constants.WEEK_FORECAST_FRAGMENT)
                     .commit();
         } else if (id == R.id.nav_settings) {
             getSupportFragmentManager().beginTransaction()
-                    //.add(R.id.content_main, HomeFragment.newInstance(null))
+                    .replace(R.id.content_main, new SettingsFragment(), Constants.SETTINGS_FRAGMENT)
                     .commit();
-        }/* else if (id == R.id.na) {
-
-        } */
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
