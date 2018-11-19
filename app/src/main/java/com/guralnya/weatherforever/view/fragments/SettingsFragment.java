@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.RadioGroup;
 import android.widget.Switch;
 
 import com.guralnya.weatherforever.R;
@@ -25,6 +26,8 @@ public class SettingsFragment extends Fragment {
     Switch mSwitchUpdateStartup;
     @BindView(R.id.switchAskLeaving)
     Switch mSwitchAskLeaving;
+    @BindView(R.id.rgLocationSelection)
+    RadioGroup mRadioGroup;
 
     @Nullable
     @Override
@@ -61,6 +64,15 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 SettingsManager.setAskLeaving(getActivity(), isChecked);
+            }
+        });
+
+        mRadioGroup.check(SettingsManager.getLocationSelection(getActivity()));
+        mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                SettingsManager.setLocationSelection(getActivity(), checkedId);
+                SettingsManager.resetLocation(getActivity());
             }
         });
     }

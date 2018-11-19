@@ -3,6 +3,8 @@ package com.guralnya.weatherforever;
 import android.app.Application;
 
 import com.guralnya.weatherforever.model.repository.DownloadWeather;
+import com.guralnya.weatherforever.utils.Constants;
+import com.guralnya.weatherforever.utils.SettingsManager;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -19,6 +21,20 @@ public class BaseApplication extends Application {
 
         //Realm.deleteRealm(config);
 
-        DownloadWeather.getWeatherWeekByCity("Kremenchuk", "804");
+        if (SettingsManager.getUpdateStartUp(getBaseContext())) {
+            if (!SettingsManager.getUpdateOnlyByWifi(getBaseContext())) {
+                if(SettingsManager.getLocationSelection(getBaseContext()) == Constants.AUTO_LOCATION){
+                    //getLocation
+                   // DownloadWeather.getWeatherWeekByPosition();
+                } else {
+                    DownloadWeather.getWeatherWeekByCity(
+                            SettingsManager.getWasSetCity(getBaseContext()),
+                            SettingsManager.getWasSetCountry(getBaseContext()));
+                }
+            } else {
+                //обновление только через wifi
+            }
+        }
+
     }
 }

@@ -10,7 +10,9 @@ public class SettingsManager {
     private static final String UPDATE_START_UP = "updateStartUp";
     private static final String ASK_LEAVING = "askLeaving";
 
-    private static final String WAS_SET_CITY = "settedCity";
+    private static final String LOCATION_SELECTION = "locationSelection";
+    private static final String WAS_SET_COUNTRY = "wasSetCountry";
+    private static final String WAS_SET_CITY = "wasSetCity";
 
     private static SharedPreferences getPreferences(Context context) {
         return context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
@@ -40,11 +42,32 @@ public class SettingsManager {
         getPreferences(context).edit().putBoolean(ASK_LEAVING, set).apply();
     }
 
+    public static int getLocationSelection(Context context) {
+        return getPreferences(context).getInt(LOCATION_SELECTION, 1);
+    }
+
+    public static void setLocationSelection(Context context, int set) {
+        getPreferences(context).edit().putInt(LOCATION_SELECTION, set).apply();
+    }
+
+    public static String getWasSetCountry(Context context) {
+        return getPreferences(context).getString(WAS_SET_COUNTRY, "");
+    }
+
+    public static void setCountry(Context context, String country) {
+        getPreferences(context).edit().putString(WAS_SET_COUNTRY, country).apply();
+    }
+
     public static String getWasSetCity(Context context) {
         return getPreferences(context).getString(WAS_SET_CITY, "");
     }
 
-    public static void setCity(Context context, String city, String country) {
-        getPreferences(context).edit().putString(WAS_SET_CITY, city + "," + country).apply();
+    public static void setCity(Context context, String city) {
+        getPreferences(context).edit().putString(WAS_SET_CITY, city).apply();
+    }
+
+    public static void resetLocation(Context context){
+        setCountry(context, "");
+        setCity(context, "");
     }
 }
