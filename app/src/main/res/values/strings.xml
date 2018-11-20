@@ -11,7 +11,7 @@
     <string name="weather_week">Погода на неделю</string>
     <string name="settings">Настройки</string>
     <string name="exit">Выход</string>
-    
+
     <string name="update_only_wifi">Обновлять только по Wi-Fi</string>
     <string name="update_at_startup">Обновлять при старте</string>
     <string name="ask_when_leaving">Спрашивать при входе</string>
@@ -19,13 +19,20 @@
     <string name="manual_location">Вручную</string>
     <string name="auto_location">По координатам</string>
     <string name="set_city">Выберите город</string>
-    
+
     <string name="pressure">Давление:</string>
     <string name="humidity">Влажность:</string>
     <string name="wind">Ветер:</string>
     <string name="minTemperature">Температура:</string>
     <string name="mm">мм</string>
     <string name="percent">%</string>
-    <string name="wind_speed"> м/сек</string>
+    <string name="wind_speed">" м/сек"</string>
 
+    <string-array name="countries">
+        <item name="ua">Украина</item>
+        <item name="eg">Египет</item>
+        <item name="pl">Польша</item>
+        <item name="ru">Россия</item>
+        <item name="tr">Турция</item>
+    </string-array>
 </resources>

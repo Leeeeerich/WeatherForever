@@ -1,25 +1,22 @@
-package com.guralnya.weatherforever.view.fragments;
+package com.guralnya.weatherforever.view.activities;
 
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.view.ContextThemeWrapper;
-import android.view.LayoutInflater;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.guralnya.weatherforever.R;
 import com.guralnya.weatherforever.model.objects.database_realm.WeatherDayRealm;
+import com.guralnya.weatherforever.utils.Constants;
 import com.guralnya.weatherforever.view.utils.Tools;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,7 +24,7 @@ import io.realm.Realm;
 
 import static com.guralnya.weatherforever.utils.Constants.TIME_STAMP;
 
-public class DailyFragment extends Fragment {
+public class DailyActivity extends AppCompatActivity {
 
     @BindView(R.id.tvMinTemp)
     TextView tvMinTemp;
@@ -42,19 +39,26 @@ public class DailyFragment extends Fragment {
     @BindView(R.id.imWeather)
     ImageView imWeather;
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_today, container, false);
-        ButterKnife.bind(this, view);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_daily);
+        ButterKnife.bind(this);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
-        assert getArguments() != null;
-        initView(getArguments().getLong(TIME_STAMP));
+        Intent intent = getIntent();
+        initView(intent.getLongExtra(Constants.TIME_STAMP, 0));
 
-        return view;
     }
 
     private void initView(Long timeStamp) {
@@ -64,7 +68,7 @@ public class DailyFragment extends Fragment {
                 .findFirst();
 
         SimpleDateFormat dataFormat = new SimpleDateFormat("EE', 'dd MMMM", Locale.getDefault());
-        Objects.requireNonNull(getActivity()).setTitle(dataFormat.format(weatherDayRealm.getTimeStamp() * 1000));
+        setTitle(dataFormat.format(weatherDayRealm.getTimeStamp() * 1000));
 
         tvMinTemp.setText(Tools.setPositiveSymbol(weatherDayRealm.getMinTemperature()));
         tvMaxTemp.setText(Tools.setPositiveSymbol(weatherDayRealm.getMaxTemperature()));
@@ -75,14 +79,8 @@ public class DailyFragment extends Fragment {
         tvWindSpeed.setText(weatherDayRealm.getWindSpeed().concat(getString(R.string.wind_speed)));
         String imageURL = weatherDayRealm.getIconUrl();
         Glide
-                .with(getActivity())
+                .with(this)
                 .load(imageURL)
                 .into(imWeather);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        getActivity().setTheme(R.style.MyWeatherTheme);
     }
 }

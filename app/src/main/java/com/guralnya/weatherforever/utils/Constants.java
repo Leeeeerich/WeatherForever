@@ -14,4 +14,10 @@ public class Constants {
     public static final String SETTINGS_FRAGMENT = "settingsFragment";
     public static final String WEEK_FORECAST_FRAGMENT = "weekForecastFragment";
     public static final String TODAY_FORECAST_FRAGMENT = "todayForecastFragment";
+
+    public static final String ID_POLSKA = "pl";
+    public static final String ID_UKRAINE = "ua";
+    public static final String ID_RUSSIAN = "ru";
+    public static final String ID_EGYPET = "eg";
+    public static final String ID_TURKEY = "tr";
 }

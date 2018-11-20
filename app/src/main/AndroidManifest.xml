@@ -13,10 +13,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".view.activities.DailyActivity"
+            android:theme="@style/MyWeatherThemeTodayFragment"/>
         <activity
             android:name=".view.activities.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/MyWeatherTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

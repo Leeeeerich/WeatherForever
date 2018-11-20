@@ -1,5 +1,6 @@
 package com.guralnya.weatherforever.view.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+
         WeekFragment.getInstance().setIWeekFragment(this);
     }
 
@@ -89,7 +91,6 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
 
-
         if (id == R.id.nav_today) {
             getSupportFragmentManager().beginTransaction()
                     //.add(R.id.content_main, HomeFragment.newInstance(null))
@@ -111,6 +112,11 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void clickItemListener(long timeStamp) {
+        Intent intent = new Intent(this, DailyActivity.class);
+        intent.putExtra(Constants.TIME_STAMP, timeStamp);
+        startActivity(intent);
+
+        /*
         Bundle bundle = new Bundle();
         bundle.putLong(Constants.TIME_STAMP, timeStamp);
         Fragment f = new DailyFragment();
@@ -119,6 +125,6 @@ public class MainActivity extends AppCompatActivity
                 .beginTransaction()
                 .replace(R.id.content_main, f)
                 .addToBackStack(Constants.DAILY_FORECAST)
-                .commit();
+                .commit();*/
     }
 }

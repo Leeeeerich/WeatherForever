@@ -16,6 +16,8 @@ import com.guralnya.weatherforever.R;
 import com.guralnya.weatherforever.model.objects.database_realm.WeatherDayRealm;
 import com.guralnya.weatherforever.view.adapters.WeekFragmentRealmAdapter;
 
+import java.util.Objects;
+
 import io.realm.OrderedRealmCollection;
 import io.realm.Realm;
 
@@ -55,8 +57,7 @@ public class WeekFragment extends Fragment {
         mLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        setAdapter(mRealm.where(WeatherDayRealm.class).findAll(),
-                getActivity());
+        setAdapter(mRealm.where(WeatherDayRealm.class).findAll(),getActivity());
 
         recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(mLinearLayoutManager);
@@ -77,7 +78,8 @@ public class WeekFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        getActivity().setTitle(R.string.weather_week);
+
+        Objects.requireNonNull(getActivity()).setTitle(R.string.weather_week);
     }
 
     @Override

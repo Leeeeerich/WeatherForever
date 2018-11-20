@@ -36,10 +36,14 @@ public class TodayForecastFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
 
-
+            getActivity().setTheme(R.style.MyWeatherThemeTodayFragment);
 
         return view;
     }
 
-
+    @Override
+    public void onPause() {
+        super.onPause();
+        getActivity().setTheme(R.style.MyWeatherTheme);
+    }
 }

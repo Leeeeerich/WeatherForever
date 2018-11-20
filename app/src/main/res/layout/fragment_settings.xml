@@ -73,8 +73,10 @@
                     android:id="@+id/rbManualLocation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_weight="1"
                     android:width="1dp"
+                    android:gravity="center"
                     android:text="@string/manual_location"
                     android:textSize="18sp" />
 
@@ -82,11 +84,21 @@
                     android:id="@+id/rbAutoLocation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_weight="1"
                     android:width="1dp"
+                    android:gravity="center"
                     android:text="@string/auto_location"
                     android:textSize="18sp" />
             </RadioGroup>
+
+            <Spinner
+                android:id="@+id/spinnerCountries"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp" />
 
             <EditText
                 android:id="@+id/etSetCity"
