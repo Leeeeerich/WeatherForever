@@ -15,9 +15,9 @@
     <string name="update_only_wifi">Обновлять только по Wi-Fi</string>
     <string name="update_at_startup">Обновлять при старте</string>
     <string name="ask_when_leaving">Спрашивать при входе</string>
-    <string name="location_selection">Выбор местоположения</string>
+    <string name="location_selection">Выбрать местоположение</string>
     <string name="manual_location">Вручную</string>
-    <string name="auto_location">По координатам</string>
+    <string name="auto_location">По моим координатам</string>
     <string name="set_city">Выберите город</string>
 
     <string name="pressure">Давление:</string>

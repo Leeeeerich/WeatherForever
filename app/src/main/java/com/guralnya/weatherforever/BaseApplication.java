@@ -1,6 +1,7 @@
 package com.guralnya.weatherforever;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.guralnya.weatherforever.model.repository.DownloadWeather;
 import com.guralnya.weatherforever.utils.Constants;
@@ -11,9 +12,13 @@ import io.realm.RealmConfiguration;
 
 public class BaseApplication extends Application {
 
+    public static Context context;
+
     @Override
     public void onCreate() {
         super.onCreate();
+
+        context = getBaseContext();
 
         Realm.init(this);
         RealmConfiguration config = new RealmConfiguration.Builder().name("weather.realm").build();
@@ -24,6 +29,7 @@ public class BaseApplication extends Application {
         if (SettingsManager.getUpdateStartUp(getBaseContext())) {
             if (!SettingsManager.getUpdateOnlyByWifi(getBaseContext())) {
                 if(SettingsManager.getLocationSelection(getBaseContext()) == Constants.AUTO_LOCATION){
+                    //TODO Download forecast for week by GPS location
                     //getLocation
                    // DownloadWeather.getWeatherWeekByPosition();
                 } else {
@@ -32,9 +38,8 @@ public class BaseApplication extends Application {
                             SettingsManager.getWasSetCountry(getBaseContext()));
                 }
             } else {
-                //обновление только через wifi
+                //TODO Update forecast only by WiFi
             }
         }
-
     }
 }

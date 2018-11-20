@@ -13,6 +13,7 @@ public class SettingsManager {
     private static final String LOCATION_SELECTION = "locationSelection";
     private static final String WAS_SET_COUNTRY = "wasSetCountry";
     private static final String WAS_SET_CITY = "wasSetCity";
+    private static boolean UPDATED_FORECAST_TODAY_THIS_SESSION = false;
 
     private static SharedPreferences getPreferences(Context context) {
         return context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
@@ -27,7 +28,7 @@ public class SettingsManager {
     }
 
     public static boolean getUpdateStartUp(Context context) {
-        return getPreferences(context).getBoolean(UPDATE_START_UP, false);
+        return getPreferences(context).getBoolean(UPDATE_START_UP, true);
     }
 
     public static void setUpdateStartUp(Context context, boolean set) {
@@ -43,7 +44,7 @@ public class SettingsManager {
     }
 
     public static int getLocationSelection(Context context) {
-        return getPreferences(context).getInt(LOCATION_SELECTION, 1);
+        return getPreferences(context).getInt(LOCATION_SELECTION, Constants.MANUAL_LOCATION);
     }
 
     public static void setLocationSelection(Context context, int set) {
@@ -51,7 +52,7 @@ public class SettingsManager {
     }
 
     public static String getWasSetCountry(Context context) {
-        return getPreferences(context).getString(WAS_SET_COUNTRY, "");
+        return getPreferences(context).getString(WAS_SET_COUNTRY, "ua");
     }
 
     public static void setCountry(Context context, String country) {
@@ -59,7 +60,7 @@ public class SettingsManager {
     }
 
     public static String getWasSetCity(Context context) {
-        return getPreferences(context).getString(WAS_SET_CITY, "");
+        return getPreferences(context).getString(WAS_SET_CITY, "Kremenchuk");
     }
 
     public static void setCity(Context context, String city) {
@@ -70,4 +71,14 @@ public class SettingsManager {
         setCountry(context, "");
         setCity(context, "");
     }
+
+    public static void setUpdatedForecastTodayThisSession(boolean updatedForecastTodayThisSession) {
+        UPDATED_FORECAST_TODAY_THIS_SESSION = updatedForecastTodayThisSession;
+    }
+
+    public static boolean isUpdatedForecastTodayThisSession() {
+        return UPDATED_FORECAST_TODAY_THIS_SESSION;
+    }
+
+
 }

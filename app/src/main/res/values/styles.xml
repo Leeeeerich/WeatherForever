@@ -19,6 +19,12 @@
 
     <style name="MyWeatherTheme" parent="Theme.AppCompat.NoActionBar" >
 
+
+    </style>
+
+    <style name="MyThemeNavView" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorControlNormal">#FFFFFF</item>
+        <item name="colorControlActivated">@color/accent_material</item>
     </style>
 
     <style name="MyWeatherThemeTodayFragment" parent="Theme.AppCompat.Light.NoActionBar" >

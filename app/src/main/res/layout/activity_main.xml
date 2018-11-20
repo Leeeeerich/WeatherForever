@@ -20,7 +20,9 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/activity_main_drawer" >
+        app:itemIconTint="@color/selector_behavior_nav_button"
+        app:itemTextColor="@color/selector_behavior_nav_button"
+        app:menu="@menu/activity_main_drawer">
 
         <TextView
             android:layout_width="match_parent"

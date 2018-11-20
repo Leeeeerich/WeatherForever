@@ -10,11 +10,24 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.guralnya.weatherforever.R;
+import com.guralnya.weatherforever.model.objects.WeatherDay;
+import com.guralnya.weatherforever.model.objects.database_realm.WeatherDayRealm;
+import com.guralnya.weatherforever.presenters.ITodayForecastPresenter;
+import com.guralnya.weatherforever.presenters.TodayForecastPresenter;
+import com.guralnya.weatherforever.view.utils.Tools;
+
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+import java.util.Objects;
 
 import butterknife.BindView;
+import io.realm.Realm;
 
-public class TodayForecastFragment extends Fragment {
+import static com.guralnya.weatherforever.utils.Constants.TIME_STAMP;
+
+public class TodayForecastFragment extends Fragment implements ITodayForecastPresenter {
 
     @BindView(R.id.tvMinTemp)
     TextView tvMinTemp;
@@ -36,14 +49,33 @@ public class TodayForecastFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
 
-            getActivity().setTheme(R.style.MyWeatherThemeTodayFragment);
+        TodayForecastPresenter.getInstance().getTodayForecast();
+        TodayForecastPresenter.getInstance().setITodayForecastListener(this);
 
         return view;
     }
 
+    private void initView(WeatherDay weatherDay) {
+
+        SimpleDateFormat dataFormat = new SimpleDateFormat("EE', 'dd MMMM", Locale.getDefault());
+        Objects.requireNonNull(getActivity()).setTitle(dataFormat.format(weatherDay.getTimestamp() * 1000));
+
+        tvMinTemp.setText(Tools.setPositiveSymbol(weatherDay.getTempMin()));
+        tvMaxTemp.setText(Tools.setPositiveSymbol(weatherDay.getTempMax()));
+        tvHumidity.setText(String.valueOf(weatherDay.getHumidity()).concat("%"));
+        tvPressure.setText(
+                Tools.pascalToMillimetersOfMercury(String.valueOf(weatherDay.getPressure()))
+                        .concat(getString(R.string.mm)));
+        tvWindSpeed.setText(weatherDay.getWindSpeed().concat(getString(R.string.wind_speed)));
+        String imageURL = weatherDay.getIconUrl();
+        Glide
+                .with(getActivity())
+                .load(imageURL)
+                .into(imWeather);
+    }
+
     @Override
-    public void onPause() {
-        super.onPause();
-        getActivity().setTheme(R.style.MyWeatherTheme);
+    public void getForestTodayListener(WeatherDay weatherDay) {
+        initView(weatherDay);
     }
 }

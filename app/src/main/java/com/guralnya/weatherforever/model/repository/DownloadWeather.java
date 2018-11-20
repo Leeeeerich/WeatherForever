@@ -19,6 +19,12 @@ import retrofit2.Response;
 
 public class DownloadWeather {
 
+    private IDownloadWeather mIDownloadWeather;
+
+    public void setIDownloadWeatherListener(IDownloadWeather IDownloadWeather) {
+        mIDownloadWeather = IDownloadWeather;
+    }
+
     public void getWeatherTodayByCity(String city, String country) {
         getWeatherToday(city, country, null, null);
     }
@@ -52,7 +58,7 @@ public class DownloadWeather {
             public void onResponse(Call<WeatherDay> call, Response<WeatherDay> response) {
                 Log.e(getClass().getName(), "onResponse");
                 WeatherDay data = response.body();
-                //TODO callBack data
+                mIDownloadWeather.getTodayForecastListener(data);
             }
 
             @Override

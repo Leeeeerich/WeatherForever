@@ -1,6 +1,7 @@
 package com.guralnya.weatherforever.view.activities;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -21,6 +22,7 @@ import com.guralnya.weatherforever.utils.Constants;
 import com.guralnya.weatherforever.view.fragments.DailyFragment;
 import com.guralnya.weatherforever.view.fragments.IWeekFragment;
 import com.guralnya.weatherforever.view.fragments.SettingsFragment;
+import com.guralnya.weatherforever.view.fragments.TodayForecastFragment;
 import com.guralnya.weatherforever.view.fragments.WeekFragment;
 
 public class MainActivity extends AppCompatActivity
@@ -33,12 +35,6 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.content_main, WeekFragment.getInstance())
-                    .commit();
-        }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -47,7 +43,14 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setItemBackgroundResource(R.color.transparent);
 
+        if (savedInstanceState == null) {
+            navigationView.setCheckedItem(R.id.nav_week);
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.content_main, WeekFragment.getInstance())
+                    .commit();
+        }
 
         WeekFragment.getInstance().setIWeekFragment(this);
     }
@@ -90,11 +93,12 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-
         if (id == R.id.nav_today) {
             getSupportFragmentManager().beginTransaction()
-                    //.add(R.id.content_main, HomeFragment.newInstance(null))
+                    .replace(R.id.content_main, new TodayForecastFragment(), Constants.TODAY_FORECAST_FRAGMENT)
                     .commit();
+         /*   Intent intent = new Intent(this, DailyActivity.class);
+            startActivity(intent);*/
         } else if (id == R.id.nav_week) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.content_main, WeekFragment.getInstance(), Constants.WEEK_FORECAST_FRAGMENT)

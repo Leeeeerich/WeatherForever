@@ -19,6 +19,7 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.guralnya.weatherforever.R;
+import com.guralnya.weatherforever.utils.Constants;
 import com.guralnya.weatherforever.utils.SettingsManager;
 
 import butterknife.BindView;
@@ -93,7 +94,7 @@ public class SettingsFragment extends Fragment {
     }
 
     private void chooseLocation(){
-        if(SettingsManager.getLocationSelection(getActivity()) == R.id.rbManualLocation){
+        if(SettingsManager.getLocationSelection(getActivity()) == Constants.MANUAL_LOCATION){
             mSpinner.setVisibility(View.VISIBLE);
             mSetCity.setVisibility(View.VISIBLE);
         } else {
