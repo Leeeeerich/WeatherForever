@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/color_0">
+        <shape android:shape="rectangle">
+            <corners android:radius="8dp"/>
+            <solid android:color="@color/color_0"/>
+        </shape>
+    </item>
+
+    <item android:id="@+id/color_1">
+        <shape android:shape="rectangle">
+            <corners android:radius="8dp"/>
+            <solid android:color="@color/color_1"/>
+        </shape>
+    </item>
+
+    <item android:id="@+id/color_2">
+        <shape android:shape="rectangle">
+            <corners android:radius="8dp"/>
+            <solid android:color="@color/color_2"/>
+        </shape>
+    </item>
+
+    <item android:id="@+id/color_3">
+        <shape android:shape="rectangle">
+            <corners android:radius="8dp"/>
+            <solid android:color="@color/color_3"/>
+        </shape>
+    </item>
+
+    <item android:id="@+id/color_4">
+        <shape android:shape="rectangle">
+            <corners android:radius="8dp"/>
+            <solid android:color="@color/color_4"/>
+        </shape>
+    </item>
+
+    <item android:id="@+id/color_5">
+        <shape android:shape="rectangle">
+            <corners android:radius="8dp"/>
+            <solid android:color="@color/color_5"/>
+        </shape>
+    </item>
+    <item android:id="@+id/color_6">
+        <shape android:shape="rectangle">
+            <corners android:radius="8dp"/>
+            <solid android:color="@color/color_6"/>
+        </shape>
+    </item>
+
+    <item android:id="@+id/color_7">
+        <shape android:shape="rectangle">
+            <corners android:radius="8dp"/>
+            <solid android:color="@color/color_7"/>
+        </shape>
+    </item>
+
+    <item android:id="@+id/color_8">
+        <shape android:shape="rectangle">
+            <corners android:radius="8dp"/>
+            <solid android:color="@color/color_8"/>
+        </shape>
+    </item>
+
+    <item android:id="@+id/color_9">
+        <shape android:shape="rectangle">
+            <corners android:radius="8dp"/>
+            <solid android:color="@color/color_9"/>
+        </shape>
+    </item>
+
+</layer-list>

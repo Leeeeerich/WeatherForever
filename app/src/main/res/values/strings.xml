@@ -28,6 +28,11 @@
     <string name="percent">%</string>
     <string name="wind_speed">" м/сек"</string>
 
+    <string name="ask_exit">Выход</string>
+    <string name="ask_exit_text">Вы уверены что хотите выйти?</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+
     <string-array name="countries">
         <item name="ua">Украина</item>
         <item name="eg">Египет</item>

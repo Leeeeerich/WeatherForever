@@ -1,5 +1,6 @@
 package com.guralnya.weatherforever.view.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
@@ -19,6 +21,7 @@ import android.widget.FrameLayout;
 
 import com.guralnya.weatherforever.R;
 import com.guralnya.weatherforever.utils.Constants;
+import com.guralnya.weatherforever.utils.SettingsManager;
 import com.guralnya.weatherforever.view.fragments.DailyFragment;
 import com.guralnya.weatherforever.view.fragments.IWeekFragment;
 import com.guralnya.weatherforever.view.fragments.SettingsFragment;
@@ -65,28 +68,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -107,6 +88,10 @@ public class MainActivity extends AppCompatActivity
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.content_main, new SettingsFragment(), Constants.SETTINGS_FRAGMENT)
                     .commit();
+        } else if (id == R.id.nav_exit){
+            if(SettingsManager.getAskLeaving(this)) {
+                askExitAlertDialog();
+            }
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -114,21 +99,29 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    private void askExitAlertDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.ask_exit)
+                .setMessage(getResources().getString(R.string.ask_exit_text))
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                })
+                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
     @Override
     public void clickItemListener(long timeStamp) {
         Intent intent = new Intent(this, DailyActivity.class);
         intent.putExtra(Constants.TIME_STAMP, timeStamp);
         startActivity(intent);
-
-        /*
-        Bundle bundle = new Bundle();
-        bundle.putLong(Constants.TIME_STAMP, timeStamp);
-        Fragment f = new DailyFragment();
-        f.setArguments(bundle);
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.content_main, f)
-                .addToBackStack(Constants.DAILY_FORECAST)
-                .commit();*/
     }
 }
