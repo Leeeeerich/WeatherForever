@@ -24,6 +24,7 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import io.realm.Realm;
+import io.realm.RealmList;
 
 import static com.guralnya.weatherforever.utils.Constants.TIME_STAMP;
 
@@ -47,7 +48,7 @@ public class TodayForecastFragment extends Fragment implements ITodayForecastPre
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_settings, container, false);
+        View view = inflater.inflate(R.layout.fragment_today, container, false);
 
         TodayForecastPresenter.getInstance().getTodayForecast();
         TodayForecastPresenter.getInstance().setITodayForecastListener(this);
@@ -55,27 +56,27 @@ public class TodayForecastFragment extends Fragment implements ITodayForecastPre
         return view;
     }
 
-    private void initView(WeatherDay weatherDay) {
+    private void initView(WeatherDayRealm weatherDayRealm) {
 
         SimpleDateFormat dataFormat = new SimpleDateFormat("EE', 'dd MMMM", Locale.getDefault());
-        Objects.requireNonNull(getActivity()).setTitle(dataFormat.format(weatherDay.getTimestamp() * 1000));
+        Objects.requireNonNull(getActivity()).setTitle(dataFormat.format(weatherDayRealm.getTimeStamp() * 1000));
 
-        tvMinTemp.setText(Tools.setPositiveSymbol(weatherDay.getTempMin()));
-        tvMaxTemp.setText(Tools.setPositiveSymbol(weatherDay.getTempMax()));
-        tvHumidity.setText(String.valueOf(weatherDay.getHumidity()).concat("%"));
+        tvMinTemp.setText(Tools.setPositiveSymbol(weatherDayRealm.getMinTemperature()));
+        tvMaxTemp.setText(Tools.setPositiveSymbol(weatherDayRealm.getMaxTemperature()));
+        tvHumidity.setText(weatherDayRealm.getHumidity().concat("%"));
         tvPressure.setText(
-                Tools.pascalToMillimetersOfMercury(String.valueOf(weatherDay.getPressure()))
+                Tools.pascalToMillimetersOfMercury(weatherDayRealm.getPressure())
                         .concat(getString(R.string.mm)));
-        tvWindSpeed.setText(weatherDay.getWindSpeed().concat(getString(R.string.wind_speed)));
-        String imageURL = weatherDay.getIconUrl();
+        tvWindSpeed.setText(weatherDayRealm.getWindSpeed().concat(getString(R.string.wind_speed)));
+        String imageURL = weatherDayRealm.getIconUrl();
         Glide
-                .with(getActivity())
+                .with(this)
                 .load(imageURL)
                 .into(imWeather);
     }
 
     @Override
-    public void getForestTodayListener(WeatherDay weatherDay) {
+    public void getForestTodayListener(WeatherDayRealm weatherDay) {
         initView(weatherDay);
     }
 }

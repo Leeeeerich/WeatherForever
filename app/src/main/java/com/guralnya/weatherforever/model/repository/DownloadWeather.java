@@ -9,6 +9,7 @@ import com.guralnya.weatherforever.model.objects.database_realm.WeatherDayRealm;
 import com.guralnya.weatherforever.model.utils.Tools;
 import com.guralnya.weatherforever.utils.Constants;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
@@ -58,7 +59,10 @@ public class DownloadWeather {
             public void onResponse(Call<WeatherDay> call, Response<WeatherDay> response) {
                 Log.e(getClass().getName(), "onResponse");
                 WeatherDay data = response.body();
-                mIDownloadWeather.getTodayForecastListener(data);
+                Log.e(getClass().getName(), " sfef = " + data.getTemp());
+                List<WeatherDay> list = new ArrayList<>();
+                list.add(data);
+                mIDownloadWeather.getTodayForecastListener(Tools.hourlyForecastConvertToDaily(list).get(1));
             }
 
             @Override

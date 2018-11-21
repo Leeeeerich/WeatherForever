@@ -1,5 +1,7 @@
 package com.guralnya.weatherforever.view.fragments;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -45,6 +47,7 @@ public class SettingsFragment extends Fragment {
     Switch mSwitchAskLeaving;
     @BindView(R.id.rgLocationSelection)
     RadioGroup mRadioGroup;
+
     @BindView(R.id.spinnerCountries)
     Spinner mSpinner;
     @BindView(R.id.etSetCity)
@@ -122,30 +125,41 @@ public class SettingsFragment extends Fragment {
         } else {
             mSpinner.setVisibility(View.GONE);
             mSetCity.setVisibility(View.GONE);
-            getLocation();
+            checkPermission();
         }
     }
 
-    private void getLocation() {
-
-        if (ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-                    MY_PERMISSION_ACCESS_COURSE_LOCATION);
-           /* ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION},
-                    MY_PERMISSION_ACCESS_COURSE_LOCATION);*/
-        }
+    private void checkPermission(){
         if (Build.VERSION.SDK_INT >= 23 &&
                 ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             Log.e(getClass().getName(), "true");
-            return;
+        }
+        if (ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION},
+                    MY_PERMISSION_ACCESS_COURSE_LOCATION);
+            getLocation();
         }
 
-        locationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                1000 * 5, 0, locationListener);
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
-                1000 * 10, 0, locationListener);
+        /* else {
+            mRadioGroup.check(Constants.MANUAL_LOCATION);
+            SettingsManager.setLocationSelection(getActivity(), Constants.MANUAL_LOCATION);
+            chooseLocation();
+        }*/
+
+    }
+//
+    private void getLocation() {
+    //    checkPermission();
+        if(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_GRANTED ){
+            Log.e(getClass().getName(), "Получаю координаты ");
+            locationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
+                    1000 * 10, 0, locationListener);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                    1000 * 5, 0, locationListener);
+        }
 
     }
 
@@ -153,33 +167,25 @@ public class SettingsFragment extends Fragment {
 
         @Override
         public void onLocationChanged(Location location) {
-            //  showLocation(location);
             double lat = location.getLatitude();
             double lng = location.getLongitude();
-           /* myLatitude = String.format(" %1$.4f",location.getLatitude());
-            myLongitude = String.format(" %1$.4f",location.getLongitude());
-*/
-            //   lat = Math.round(lat*1000)/1000;
-            //   lng = Math.round(lng*1000)/1000;
-
             Log.e(getClass().getName(), "Получены координаты телефона \n lat: " + lat + "\n lng: " + lng);
+            locationManager.removeUpdates(locationListener);
         }
 
         @Override
         public void onProviderDisabled(String provider) {
-            Log.e(getClass().getName(), "Provider disabled");
+
         }
 
         @Override
         public void onProviderEnabled(String provider) {
-            //  checkEnabled();
-            // showLocation(locationManager.getLastKnownLocation(provider));
-            Log.e(getClass().getName(), "Получены координаты телефона доступны");
+
         }
 
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras) {
-            Log.e(getClass().getName(), "Статус provider");
+
         }
     };
 /*

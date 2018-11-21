@@ -2,6 +2,7 @@ package com.guralnya.weatherforever.presenters;
 
 import com.guralnya.weatherforever.BaseApplication;
 import com.guralnya.weatherforever.model.objects.WeatherDay;
+import com.guralnya.weatherforever.model.objects.database_realm.WeatherDayRealm;
 import com.guralnya.weatherforever.model.repository.DownloadWeather;
 import com.guralnya.weatherforever.model.repository.IDownloadWeather;
 import com.guralnya.weatherforever.utils.Constants;
@@ -35,7 +36,7 @@ public class TodayForecastPresenter implements IDownloadWeather {
     }
 
     @Override
-    public void getTodayForecastListener(WeatherDay weatherDay) {
+    public void getTodayForecastListener(WeatherDayRealm weatherDay) {
         mITodayForecastPresenter.getForestTodayListener(weatherDay);
     }
 }
