@@ -24,15 +24,6 @@
         app:itemTextColor="@color/selector_behavior_nav_button"
         app:menu="@menu/activity_main_drawer">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:drawableLeft="@drawable/ic_menu_exit"
-            android:paddingStart="16dp"
-            android:text="@string/exit"
-            android:textSize="18sp" />
-
     </android.support.design.widget.NavigationView>
 
 </android.support.v4.widget.DrawerLayout>

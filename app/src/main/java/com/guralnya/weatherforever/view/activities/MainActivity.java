@@ -2,31 +2,23 @@ package com.guralnya.weatherforever.view.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
-import android.view.Menu;
+import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
 import com.guralnya.weatherforever.R;
 import com.guralnya.weatherforever.utils.Constants;
 import com.guralnya.weatherforever.utils.SettingsManager;
-import com.guralnya.weatherforever.view.fragments.DailyFragment;
 import com.guralnya.weatherforever.view.fragments.IWeekFragment;
 import com.guralnya.weatherforever.view.fragments.SettingsFragment;
-import com.guralnya.weatherforever.view.fragments.TodayForecastFragment;
 import com.guralnya.weatherforever.view.fragments.WeekFragment;
 
 import java.io.IOException;
@@ -51,7 +43,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setItemBackgroundResource(R.color.transparent);
-        navigationView.getHeaderView(0).findViewById(R.id.imNavHeader);
+
 
         if (savedInstanceState == null) {
             navigationView.setCheckedItem(R.id.nav_week);
@@ -80,11 +72,11 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_today) {
-            getSupportFragmentManager().beginTransaction()
+         /*   getSupportFragmentManager().beginTransaction()
                     .replace(R.id.content_main, new TodayForecastFragment(), Constants.TODAY_FORECAST_FRAGMENT)
-                    .commit();
-         /*   Intent intent = new Intent(this, DailyActivity.class);
-            startActivity(intent);*/
+                    .commit();*/
+            Intent intent = new Intent(this, TodayForecastActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_week) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.content_main, WeekFragment.getInstance(), Constants.WEEK_FORECAST_FRAGMENT)
@@ -93,8 +85,8 @@ public class MainActivity extends AppCompatActivity
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.content_main, new SettingsFragment(), Constants.SETTINGS_FRAGMENT)
                     .commit();
-        } else if (id == R.id.nav_exit){
-            if(SettingsManager.getAskLeaving(this)) {
+        } else if (id == R.id.nav_exit) {
+            if (SettingsManager.getAskLeaving(this)) {
                 askExitAlertDialog();
             } else {
                 finish();
@@ -106,7 +98,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private void askExitAlertDialog(){
+    private void askExitAlertDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.ask_exit)
                 .setMessage(getResources().getString(R.string.ask_exit_text))
@@ -117,10 +109,10 @@ public class MainActivity extends AppCompatActivity
                     }
                 })
                 .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
         AlertDialog alert = builder.create();
         alert.show();
     }
@@ -135,9 +127,10 @@ public class MainActivity extends AppCompatActivity
     public Drawable loadImageFromAsset() {
         try {
             InputStream ims = getAssets().open("logo.png");
+            Log.e(getClass().getName(), "Image");
             return Drawable.createFromStream(ims, null);
-        }
-        catch(IOException ex) {
+        } catch (IOException ex) {
+            ex.printStackTrace();
             return null;
         }
     }

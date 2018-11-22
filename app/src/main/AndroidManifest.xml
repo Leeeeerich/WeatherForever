@@ -14,6 +14,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".view.activities.TodayForecastActivity"
+            android:label="@string/weather_today"
+            android:theme="@style/MyWeatherTheme"/>
         <activity android:name=".view.activities.DailyActivity"
             android:theme="@style/MyWeatherThemeTodayFragment"/>
         <activity

@@ -25,6 +25,7 @@ import android.widget.Spinner;
 import android.widget.Switch;
 
 import com.guralnya.weatherforever.R;
+import com.guralnya.weatherforever.model.repository.SessionRepository;
 import com.guralnya.weatherforever.utils.Constants;
 import com.guralnya.weatherforever.utils.SettingsManager;
 
@@ -63,6 +64,11 @@ public class SettingsFragment extends Fragment {
         initView();
 
         return view;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     private void initView() {
@@ -114,7 +120,7 @@ public class SettingsFragment extends Fragment {
         }
     }
 
-    private void checkPermission(){
+    private void checkPermission() {
         if (Build.VERSION.SDK_INT >= 23 &&
                 ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -124,26 +130,24 @@ public class SettingsFragment extends Fragment {
                 ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION},
                     MY_PERMISSION_ACCESS_COURSE_LOCATION);
-            getLocation();
         }
+        getLocation();
+    }
 
-        /* else {
+    //
+    private void getLocation() {
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            Log.i(getClass().getName(), "get the coordinates ");
+            mLocationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
+            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                    1000 * 5, 0, locationListener);
+            mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
+                    1000 * 10, 0, locationListener);
+        } else {
+            Log.e(getClass().getName(), "Not have permission");
             mRadioGroup.check(Constants.MANUAL_LOCATION);
             SettingsManager.setLocationSelection(getActivity(), Constants.MANUAL_LOCATION);
             chooseLocation();
-        }*/
-
-    }
-//
-    private void getLocation() {
-    //    checkPermission();
-        if(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_GRANTED ){
-            Log.i(getClass().getName(), "get the coordinates ");
-            mLocationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
-            mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
-                    1000 * 10, 0, locationListener);
-            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                    1000 * 5, 0, locationListener);
         }
 
     }
@@ -153,8 +157,10 @@ public class SettingsFragment extends Fragment {
         @Override
         public void onLocationChanged(Location location) {
             double lat = location.getLatitude();
-            double lng = location.getLongitude();
-            Log.i(getClass().getName(), "Received phone coordinates \n lat: " + lat + "\n lng: " + lng);
+            double lon = location.getLongitude();
+            Log.i(getClass().getName(), "Received phone coordinates \n lat: " + lat + "\n lng: " + lon);
+            SessionRepository.setLatitude(lat);
+            SessionRepository.setLongitude(lon);
             mLocationManager.removeUpdates(locationListener);
         }
 

@@ -8,6 +8,7 @@ import com.guralnya.weatherforever.model.objects.WeatherWeek;
 import com.guralnya.weatherforever.model.objects.database_realm.WeatherDayRealm;
 import com.guralnya.weatherforever.model.utils.Tools;
 import com.guralnya.weatherforever.utils.Constants;
+import com.guralnya.weatherforever.utils.SettingsManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,21 +21,21 @@ import retrofit2.Response;
 
 public class DownloadWeather {
 
-    private IDownloadWeather mIDownloadWeather;
+    private static IDownloadWeather mIDownloadWeather;
 
-    public void setIDownloadWeatherListener(IDownloadWeather IDownloadWeather) {
+    public static void setIDownloadWeatherListener(IDownloadWeather IDownloadWeather) {
         mIDownloadWeather = IDownloadWeather;
     }
 
-    public void getWeatherTodayByCity(String city, String country) {
+    public static void getWeatherTodayByCity(String city, String country) {
         getWeatherToday(city, country, null, null);
     }
 
-    public void getWeatherTodayByPosition(Double lat, Double lon) {
+    public static void getWeatherTodayByPosition(Double lat, Double lon) {
         getWeatherToday(null, null, lat, lon);
     }
 
-    private void getWeatherToday(String city,
+    private static void getWeatherToday(String city,
                                  String country,
                                  Double lat,
                                  Double lon) {
@@ -52,17 +53,17 @@ public class DownloadWeather {
         }
     }
 
-    private void downloadWeatherToday(Call<WeatherDay> call) {
+    private static void downloadWeatherToday(Call<WeatherDay> call) {
         // get weather for today
         call.enqueue(new Callback<WeatherDay>() {
             @Override
             public void onResponse(Call<WeatherDay> call, Response<WeatherDay> response) {
                 Log.e(getClass().getName(), "onResponse");
                 WeatherDay data = response.body();
-                Log.e(getClass().getName(), " sfef = " + data.getTemp());
-                List<WeatherDay> list = new ArrayList<>();
-                list.add(data);
-                mIDownloadWeather.getTodayForecastListener(Tools.hourlyForecastConvertToDaily(list).get(1));
+                SessionRepository.setTodayForecast(data);
+                if(mIDownloadWeather != null) {
+                    mIDownloadWeather.getTodayForecastListener(data);
+                }
             }
 
             @Override

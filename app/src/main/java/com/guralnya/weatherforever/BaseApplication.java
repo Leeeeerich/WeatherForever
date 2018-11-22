@@ -3,7 +3,11 @@ package com.guralnya.weatherforever;
 import android.app.Application;
 import android.content.Context;
 
+import com.guralnya.weatherforever.model.objects.WeatherDay;
+import com.guralnya.weatherforever.model.objects.database_realm.WeatherDayRealm;
 import com.guralnya.weatherforever.model.repository.DownloadWeather;
+import com.guralnya.weatherforever.model.repository.IDownloadWeather;
+import com.guralnya.weatherforever.model.repository.SessionRepository;
 import com.guralnya.weatherforever.utils.Constants;
 import com.guralnya.weatherforever.utils.SettingsManager;
 
@@ -29,10 +33,17 @@ public class BaseApplication extends Application {
         if (SettingsManager.getUpdateStartUp(getBaseContext())) {
             if (!SettingsManager.getUpdateOnlyByWifi(getBaseContext())) {
                 if(SettingsManager.getLocationSelection(getBaseContext()) == Constants.AUTO_LOCATION){
-                    //TODO Download forecast for week by GPS location
-                    //getLocation
-                   // DownloadWeather.getWeatherWeekByPosition();
+                    DownloadWeather.getWeatherTodayByPosition(SessionRepository.getLatitude(),
+                            SessionRepository.getLongitude());
+
+                    DownloadWeather.getWeatherWeekByPosition(
+                            SessionRepository.getLatitude(),
+                            SessionRepository.getLongitude());
                 } else {
+                    DownloadWeather.getWeatherTodayByCity(
+                            SettingsManager.getWasSetCity(getBaseContext()),
+                            SettingsManager.getWasSetCountry(getBaseContext()));
+
                     DownloadWeather.getWeatherWeekByCity(
                             SettingsManager.getWasSetCity(getBaseContext()),
                             SettingsManager.getWasSetCountry(getBaseContext()));

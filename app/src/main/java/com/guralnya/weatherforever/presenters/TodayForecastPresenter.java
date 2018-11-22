@@ -5,6 +5,7 @@ import com.guralnya.weatherforever.model.objects.WeatherDay;
 import com.guralnya.weatherforever.model.objects.database_realm.WeatherDayRealm;
 import com.guralnya.weatherforever.model.repository.DownloadWeather;
 import com.guralnya.weatherforever.model.repository.IDownloadWeather;
+import com.guralnya.weatherforever.model.repository.SessionRepository;
 import com.guralnya.weatherforever.utils.Constants;
 import com.guralnya.weatherforever.utils.SettingsManager;
 
@@ -24,19 +25,28 @@ public class TodayForecastPresenter implements IDownloadWeather {
     }
 
     public void getTodayForecast(){
-        DownloadWeather downloadWeather = new DownloadWeather();
-        downloadWeather.setIDownloadWeatherListener(this);
-        if(SettingsManager.getLocationSelection(BaseApplication.context) == Constants.MANUAL_LOCATION){
-            downloadWeather.getWeatherTodayByCity(
-                    SettingsManager.getWasSetCity(BaseApplication.context),
-                    SettingsManager.getWasSetCountry(BaseApplication.context));
+        DownloadWeather.setIDownloadWeatherListener(this);
+        if(SessionRepository.getTodayForecast() == null) {
+            if (SettingsManager.getLocationSelection(BaseApplication.context) == Constants.MANUAL_LOCATION) {
+                DownloadWeather.getWeatherTodayByCity(
+                        SettingsManager.getWasSetCity(BaseApplication.context),
+                        SettingsManager.getWasSetCountry(BaseApplication.context));
+            } else {
+                DownloadWeather.getWeatherTodayByPosition(
+                        SessionRepository.getLatitude(),
+                        SessionRepository.getLongitude());
+            }
         } else {
-            //TODO By position GPS
+            if(mITodayForecastPresenter != null) {
+                mITodayForecastPresenter.getForestTodayListener(SessionRepository.getTodayForecast());
+            } else {
+                
+            }
         }
     }
 
     @Override
-    public void getTodayForecastListener(WeatherDayRealm weatherDay) {
+    public void getTodayForecastListener(WeatherDay weatherDay) {
         mITodayForecastPresenter.getForestTodayListener(weatherDay);
     }
 }
