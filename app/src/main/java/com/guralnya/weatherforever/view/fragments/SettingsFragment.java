@@ -23,8 +23,12 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import com.guralnya.weatherforever.R;
+import com.guralnya.weatherforever.model.objects.WeatherDay;
+import com.guralnya.weatherforever.model.repository.DownloadWeather;
+import com.guralnya.weatherforever.model.repository.IDownloadWeather;
 import com.guralnya.weatherforever.model.repository.SessionRepository;
 import com.guralnya.weatherforever.utils.Constants;
 import com.guralnya.weatherforever.utils.SettingsManager;
@@ -62,6 +66,18 @@ public class SettingsFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         initView();
+        DownloadWeather.setIDownloadWeatherListener(new IDownloadWeather() {
+            @Override
+            public void getTodayForecastListener(WeatherDay weatherDay) {
+                try {
+                    TextView tv = getView().findViewById(R.id.tvCityByPosition);
+                    tv.setVisibility(View.VISIBLE);
+                    tv.setText(weatherDay.getCity());
+                    getView().findViewById(R.id.progressBar).setVisibility(View.GONE);
+                } catch (Exception e) {
+                }
+            }
+        });
 
         return view;
     }
@@ -107,15 +123,24 @@ public class SettingsFragment extends Fragment {
                 chooseLocation();
             }
         });
+
+
     }
 
     private void chooseLocation() {
         if (SettingsManager.getLocationSelection(getActivity()) == Constants.MANUAL_LOCATION) {
             mSpinner.setVisibility(View.VISIBLE);
             mSetCity.setVisibility(View.VISIBLE);
+            try {
+                getView().findViewById(R.id.tvCityByPosition).setVisibility(View.GONE);
+                getView().findViewById(R.id.progressBar).setVisibility(View.GONE);
+            } catch (Exception e) {
+            }
+
         } else {
             mSpinner.setVisibility(View.GONE);
             mSetCity.setVisibility(View.GONE);
+            try{getView().findViewById(R.id.progressBar).setVisibility(View.VISIBLE);}catch(Exception e){}
             checkPermission();
         }
     }
@@ -152,6 +177,11 @@ public class SettingsFragment extends Fragment {
 
     }
 
+    private void getCityNameByLocation(double lat, double lon) {
+        try{getView().findViewById(R.id.progressBar).setVisibility(View.VISIBLE);}catch(Exception e){}
+        DownloadWeather.getWeatherTodayByPosition(lat, lon);
+    }
+
     private LocationListener locationListener = new LocationListener() {
 
         @Override
@@ -161,6 +191,7 @@ public class SettingsFragment extends Fragment {
             Log.i(getClass().getName(), "Received phone coordinates \n lat: " + lat + "\n lng: " + lon);
             SessionRepository.setLatitude(lat);
             SessionRepository.setLongitude(lon);
+            getCityNameByLocation(lat, lon);
             mLocationManager.removeUpdates(locationListener);
         }
 
