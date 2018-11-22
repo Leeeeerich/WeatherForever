@@ -78,7 +78,6 @@ public class WeekFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
         Objects.requireNonNull(getActivity()).setTitle(R.string.weather_week);
     }
 

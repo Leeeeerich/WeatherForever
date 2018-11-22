@@ -1,14 +1,12 @@
 package com.guralnya.weatherforever.view.fragments;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -25,7 +23,6 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Switch;
-import android.widget.Toast;
 
 import com.guralnya.weatherforever.R;
 import com.guralnya.weatherforever.utils.Constants;
@@ -53,19 +50,7 @@ public class SettingsFragment extends Fragment {
     @BindView(R.id.etSetCity)
     EditText mSetCity;
 
-    LocationManager locationManager;
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-    }
+    private LocationManager mLocationManager;
 
     @Nullable
     @Override
@@ -133,7 +118,7 @@ public class SettingsFragment extends Fragment {
         if (Build.VERSION.SDK_INT >= 23 &&
                 ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Log.e(getClass().getName(), "true");
+            Log.i(getClass().getName(), "true sdk >= 23");
         }
         if (ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -153,11 +138,11 @@ public class SettingsFragment extends Fragment {
     private void getLocation() {
     //    checkPermission();
         if(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_GRANTED ){
-            Log.e(getClass().getName(), "Получаю координаты ");
-            locationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
+            Log.i(getClass().getName(), "get the coordinates ");
+            mLocationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
+            mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
                     1000 * 10, 0, locationListener);
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
                     1000 * 5, 0, locationListener);
         }
 
@@ -169,8 +154,8 @@ public class SettingsFragment extends Fragment {
         public void onLocationChanged(Location location) {
             double lat = location.getLatitude();
             double lng = location.getLongitude();
-            Log.e(getClass().getName(), "Получены координаты телефона \n lat: " + lat + "\n lng: " + lng);
-            locationManager.removeUpdates(locationListener);
+            Log.i(getClass().getName(), "Received phone coordinates \n lat: " + lat + "\n lng: " + lng);
+            mLocationManager.removeUpdates(locationListener);
         }
 
         @Override
@@ -188,26 +173,6 @@ public class SettingsFragment extends Fragment {
 
         }
     };
-/*
-    void enableGPS (){
-        if ( Build.VERSION.SDK_INT >= 23 &&
-                ContextCompat.checkSelfPermission( getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission( getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            //return true;
-        }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                1000 * 5, 0, locationListener);
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
-                1000 * 10, 0, locationListener);
-    }
-    void disableGPS (){
-        if ( Build.VERSION.SDK_INT >= 23 &&
-                ContextCompat.checkSelfPermission( getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission( getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            //return true;
-        }
-        locationManager.removeUpdates(locationListener);
-    }*/
 
     private void spinnerCountriesInit() {
         ArrayAdapter<?> adapter =
@@ -224,7 +189,7 @@ public class SettingsFragment extends Fragment {
 
                 String[] choose = getResources().getStringArray(R.array.countries);
                 //SettingsManager.setCountry(getActivity(), choose[selectedItemPosition]);
-                Log.e(getClass().getName(), "Checked = " + mSpinner.getSelectedItem());
+                Log.i(getClass().getName(), "Checked = " + mSpinner.getSelectedItem());
             }
 
             public void onNothingSelected(AdapterView<?> parent) {

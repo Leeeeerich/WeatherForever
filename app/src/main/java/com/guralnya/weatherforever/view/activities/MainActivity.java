@@ -3,6 +3,7 @@ package com.guralnya.weatherforever.view.activities;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -28,6 +29,9 @@ import com.guralnya.weatherforever.view.fragments.SettingsFragment;
 import com.guralnya.weatherforever.view.fragments.TodayForecastFragment;
 import com.guralnya.weatherforever.view.fragments.WeekFragment;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, IWeekFragment {
 
@@ -47,6 +51,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setItemBackgroundResource(R.color.transparent);
+        navigationView.getHeaderView(0).findViewById(R.id.imNavHeader);
 
         if (savedInstanceState == null) {
             navigationView.setCheckedItem(R.id.nav_week);
@@ -91,6 +96,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_exit){
             if(SettingsManager.getAskLeaving(this)) {
                 askExitAlertDialog();
+            } else {
+                finish();
             }
         }
 
@@ -123,5 +130,15 @@ public class MainActivity extends AppCompatActivity
         Intent intent = new Intent(this, DailyActivity.class);
         intent.putExtra(Constants.TIME_STAMP, timeStamp);
         startActivity(intent);
+    }
+
+    public Drawable loadImageFromAsset() {
+        try {
+            InputStream ims = getAssets().open("logo.png");
+            return Drawable.createFromStream(ims, null);
+        }
+        catch(IOException ex) {
+            return null;
+        }
     }
 }
