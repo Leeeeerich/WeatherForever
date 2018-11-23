@@ -19,6 +19,7 @@
     <string name="manual_location">Вручную</string>
     <string name="auto_location">По моим координатам</string>
     <string name="set_city">Выберите город</string>
+    <string name="not_connection">Нет подключения к интернету</string>
 
     <string name="pressure">Давление:</string>
     <string name="humidity">Влажность:</string>

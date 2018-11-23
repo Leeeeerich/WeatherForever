@@ -68,8 +68,8 @@ public class SettingsManager {
     }
 
     public static void resetLocation(Context context) {
-        setCountry(context, "");
-        setCity(context, "");
+        setCountry(context, "ua");
+        setCity(context, "Kremenchuk");
     }
 
     public static void setUpdatedForecastTodayThisSession(boolean updatedForecastTodayThisSession) {

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -61,6 +62,15 @@ public class WeekFragment extends Fragment {
 
         recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(mLinearLayoutManager);
+
+        final SwipeRefreshLayout scrollView = view.findViewById(R.id.swipeRefreshLayout);
+        scrollView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mAdapter.notifyDataSetChanged();
+                scrollView.setRefreshing(false);
+            }
+        });
 
         return view;
     }

@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,6 +59,8 @@ public class WeekFragmentRealmAdapter extends RealmRecyclerViewAdapter<WeatherDa
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int position) {
         final WeatherDayRealm item = getItem(position);
+
+        Log.e(getClass().getName(), "City = " + item.getCity());
 
         SimpleDateFormat dataFormat = new SimpleDateFormat("EEEE', 'dd MMMM", Locale.getDefault());
         myViewHolder.mDate.setText(dataFormat.format(item.getTimeStamp() * 1000));

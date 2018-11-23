@@ -2,10 +2,14 @@ package com.guralnya.weatherforever;
 
 import android.app.Application;
 import android.content.Context;
+import android.view.Gravity;
+import android.widget.Toast;
 
 import com.guralnya.weatherforever.model.repository.DownloadCities;
 import com.guralnya.weatherforever.model.repository.DownloadWeather;
+import com.guralnya.weatherforever.model.repository.Repository;
 import com.guralnya.weatherforever.model.repository.SessionRepository;
+import com.guralnya.weatherforever.model.utils.Tools;
 import com.guralnya.weatherforever.utils.Constants;
 import com.guralnya.weatherforever.utils.SettingsManager;
 
@@ -28,29 +32,23 @@ public class BaseApplication extends Application {
 
         //Realm.deleteRealm(config);
 
-        if (SettingsManager.getUpdateStartUp(getBaseContext())) {
-            if (!SettingsManager.getUpdateOnlyByWifi(getBaseContext())) {
-                DownloadCities.getCountries();
+        if(Tools.hasConnection(context)) {
+            if (SettingsManager.getUpdateStartUp(getBaseContext())) {
+                if (!SettingsManager.getUpdateOnlyByWifi(getBaseContext())) {
+                    DownloadCities.getCountries();
 
-                if (SettingsManager.getLocationSelection(getBaseContext()) == Constants.AUTO_LOCATION) {
-                    DownloadWeather.getWeatherTodayByPosition(SessionRepository.getLatitude(),
-                            SessionRepository.getLongitude());
+                    Repository.getWeather(context);
 
-                    DownloadWeather.getWeatherWeekByPosition(
-                            SessionRepository.getLatitude(),
-                            SessionRepository.getLongitude());
                 } else {
-                    DownloadWeather.getWeatherTodayByCity(
-                            SettingsManager.getWasSetCity(getBaseContext()),
-                            SettingsManager.getWasSetCountry(getBaseContext()));
-
-                    DownloadWeather.getWeatherWeekByCity(
-                            SettingsManager.getWasSetCity(getBaseContext()),
-                            SettingsManager.getWasSetCountry(getBaseContext()));
+                    //TODO Update forecast only by WiFi
                 }
-            } else {
-                //TODO Update forecast only by WiFi
             }
+        } else {
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    getString(R.string.not_connection),
+                    Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.BOTTOM, 0, 0);
+            toast.show();
         }
     }
 }
