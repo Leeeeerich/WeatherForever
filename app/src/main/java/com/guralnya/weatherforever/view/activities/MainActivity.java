@@ -18,7 +18,6 @@ import com.guralnya.weatherforever.R;
 import com.guralnya.weatherforever.utils.Constants;
 import com.guralnya.weatherforever.utils.SettingsManager;
 import com.guralnya.weatherforever.view.fragments.IWeekFragment;
-import com.guralnya.weatherforever.view.fragments.SettingsFragment;
 import com.guralnya.weatherforever.view.fragments.WeekFragment;
 
 import java.io.IOException;
@@ -43,6 +42,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setItemBackgroundResource(R.color.transparent);
+        navigationView.getHeaderView(0).findViewById(R.id.ll).setBackground(getDrawable(R.drawable.logo));
 
 
         if (savedInstanceState == null) {
@@ -68,13 +68,9 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.nav_today) {
-         /*   getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.content_main, new TodayForecastFragment(), Constants.TODAY_FORECAST_FRAGMENT)
-                    .commit();*/
             Intent intent = new Intent(this, TodayForecastActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_week) {
@@ -82,9 +78,8 @@ public class MainActivity extends AppCompatActivity
                     .replace(R.id.content_main, WeekFragment.getInstance(), Constants.WEEK_FORECAST_FRAGMENT)
                     .commit();
         } else if (id == R.id.nav_settings) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.content_main, new SettingsFragment(), Constants.SETTINGS_FRAGMENT)
-                    .commit();
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_exit) {
             if (SettingsManager.getAskLeaving(this)) {
                 askExitAlertDialog();

@@ -17,8 +17,8 @@ public class CitiesApi {
 
     public interface ApiInterface {
         @GET("countries")
-        Call<List<CountriesDto>> getCountries(
-                @Query("keyApi") String key,
+        Call<CountriesDto> getCountries(
+                @Query("apiKey") String key,
                 @Query("locale[lang]") String lang
         );
 

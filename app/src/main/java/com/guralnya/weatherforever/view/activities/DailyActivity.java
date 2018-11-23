@@ -58,7 +58,6 @@ public class DailyActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         initView(intent.getLongExtra(Constants.TIME_STAMP, 0));
-
     }
 
     private void initView(Long timeStamp) {

@@ -2,7 +2,6 @@ package com.guralnya.weatherforever.presenters;
 
 import com.guralnya.weatherforever.BaseApplication;
 import com.guralnya.weatherforever.model.objects.WeatherDay;
-import com.guralnya.weatherforever.model.objects.database_realm.WeatherDayRealm;
 import com.guralnya.weatherforever.model.repository.DownloadWeather;
 import com.guralnya.weatherforever.model.repository.IDownloadWeather;
 import com.guralnya.weatherforever.model.repository.SessionRepository;
@@ -12,21 +11,23 @@ import com.guralnya.weatherforever.utils.SettingsManager;
 public class TodayForecastPresenter implements IDownloadWeather {
 
     private static TodayForecastPresenter mInstance;
-    public static TodayForecastPresenter getInstance(){
-        if(mInstance == null){
+
+    public static TodayForecastPresenter getInstance() {
+        if (mInstance == null) {
             mInstance = new TodayForecastPresenter();
         }
         return mInstance;
     }
 
     private ITodayForecastPresenter mITodayForecastPresenter;
+
     public void setITodayForecastListener(ITodayForecastPresenter ITodayForecastPresenter) {
         mITodayForecastPresenter = ITodayForecastPresenter;
     }
 
-    public void getTodayForecast(){
+    public void getTodayForecast() {
         DownloadWeather.setIDownloadWeatherListener(this);
-        if(SessionRepository.getTodayForecast() == null) {
+        if (SessionRepository.getTodayForecast() == null) {
             if (SettingsManager.getLocationSelection(BaseApplication.context) == Constants.MANUAL_LOCATION) {
                 DownloadWeather.getWeatherTodayByCity(
                         SettingsManager.getWasSetCity(BaseApplication.context),
@@ -37,10 +38,10 @@ public class TodayForecastPresenter implements IDownloadWeather {
                         SessionRepository.getLongitude());
             }
         } else {
-            if(mITodayForecastPresenter != null) {
+            if (mITodayForecastPresenter != null) {
                 mITodayForecastPresenter.getForestTodayListener(SessionRepository.getTodayForecast());
             } else {
-                
+
             }
         }
     }

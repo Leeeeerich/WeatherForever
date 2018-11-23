@@ -21,12 +21,12 @@ public class Tools {
         for (WeatherDay weatherDay : weatherDayList) {
 
 
-            if(minTemp > weatherDay.getTemp()) minTemp = weatherDay.getTemp();
-            if(maxTemp < weatherDay.getTemp()) maxTemp = weatherDay.getTemp();
+            if (minTemp > weatherDay.getTemp()) minTemp = weatherDay.getTemp();
+            if (maxTemp < weatherDay.getTemp()) maxTemp = weatherDay.getTemp();
             Log.e("qwerty", "\nTemp = " + weatherDay.getTemp() + "\nminTemp = " + minTemp + "\nmaxTemp = " + maxTemp);
 
-            if(humidity <= weatherDay.getHumidity()) humidity = weatherDay.getHumidity();
-            if(pressure <= weatherDay.getPressure()) pressure = weatherDay.getPressure();
+            if (humidity <= weatherDay.getHumidity()) humidity = weatherDay.getHumidity();
+            if (pressure <= weatherDay.getPressure()) pressure = weatherDay.getPressure();
 
             if (simpleDateFormat.format(weatherDay.getTimestamp() * 1000).equals("00")) {
                 WeatherDayRealm weatherDayRealm = new WeatherDayRealm(

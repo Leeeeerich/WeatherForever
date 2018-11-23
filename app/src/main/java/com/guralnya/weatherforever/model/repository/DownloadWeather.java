@@ -8,9 +8,7 @@ import com.guralnya.weatherforever.model.objects.WeatherWeek;
 import com.guralnya.weatherforever.model.objects.database_realm.WeatherDayRealm;
 import com.guralnya.weatherforever.model.utils.Tools;
 import com.guralnya.weatherforever.utils.Constants;
-import com.guralnya.weatherforever.utils.SettingsManager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
@@ -36,9 +34,9 @@ public class DownloadWeather {
     }
 
     private static void getWeatherToday(String city,
-                                 String country,
-                                 Double lat,
-                                 Double lon) {
+                                        String country,
+                                        Double lat,
+                                        Double lon) {
         if (city != null) {
             Call<WeatherDay> call = WeatherAPI.getClient()
                     .create(WeatherAPI.ApiInterface.class)
@@ -61,7 +59,7 @@ public class DownloadWeather {
                 Log.e(getClass().getName(), "onResponse");
                 WeatherDay data = response.body();
                 SessionRepository.setTodayForecast(data);
-                if(mIDownloadWeather != null) {
+                if (mIDownloadWeather != null) {
                     mIDownloadWeather.getTodayForecastListener(data);
                 }
             }
@@ -105,8 +103,11 @@ public class DownloadWeather {
             @Override
             public void onResponse(Call<WeatherWeek> call, Response<WeatherWeek> response) {
                 Log.e(getClass().getName(), "onResponse");
-                List<WeatherDay> data = response.body().getItems();
-                addOrUpdateWeatherWeekRep(Tools.hourlyForecastConvertToDaily(data));
+                try {
+                    List<WeatherDay> data = response.body().getItems();
+                    addOrUpdateWeatherWeekRep(Tools.hourlyForecastConvertToDaily(data));
+                } catch (Exception e) {
+                }
             }
 
             @Override

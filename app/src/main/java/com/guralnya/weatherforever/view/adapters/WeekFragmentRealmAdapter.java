@@ -1,7 +1,6 @@
 package com.guralnya.weatherforever.view.adapters;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.drawable.LayerDrawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,7 +15,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.guralnya.weatherforever.R;
 import com.guralnya.weatherforever.model.objects.database_realm.WeatherDayRealm;
-import com.guralnya.weatherforever.utils.Constants;
 import com.guralnya.weatherforever.view.utils.Tools;
 
 import java.text.SimpleDateFormat;
@@ -70,7 +68,7 @@ public class WeekFragmentRealmAdapter extends RealmRecyclerViewAdapter<WeatherDa
         myViewHolder.mHumidity.setText(item.getHumidity().concat("%"));
 
         LayerDrawable layerDrawable = (LayerDrawable) mContext.getDrawable(R.drawable.colors_card);
-        myViewHolder.mCardView.setBackground(layerDrawable.getDrawable(((int)(Math.random()*10))));
+        myViewHolder.mCardView.setBackground(layerDrawable.getDrawable(((int) (Math.random() * 10))));
 
         String imageURL = item.getIconUrl();
         Glide

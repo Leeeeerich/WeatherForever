@@ -3,6 +3,8 @@ package com.guralnya.weatherforever.view.activities;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -40,22 +42,35 @@ public class TodayForecastActivity extends AppCompatActivity implements ITodayFo
 
         TodayForecastPresenter.getInstance().getTodayForecast();
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     private void initView(WeatherDay weatherDay) {
-
-        tvMinTemp.setText(Tools.setPositiveSymbol(Tools.convertDoubleToInt(weatherDay.getTempMin())));
-        tvMaxTemp.setText(Tools.setPositiveSymbol(Tools.convertDoubleToInt(weatherDay.getTempMax())));
-        tvHumidity.setText(String.valueOf(weatherDay.getHumidity()).concat("%"));
-        tvPressure.setText(
-                Tools.pascalToMillimetersOfMercury(String.valueOf(Math.round(weatherDay.getPressure())))
-                        .concat(getString(R.string.mm)));
-        tvWindSpeed.setText(weatherDay.getWindSpeed().concat(getString(R.string.wind_speed)));
-        String imageURL = weatherDay.getIconUrl();
-        Glide
-                .with(this)
-                .load(imageURL)
-                .into(imWeather);
+        try {
+            tvMinTemp.setText(Tools.setPositiveSymbol(Tools.convertDoubleToInt(weatherDay.getTempMin())));
+            tvMaxTemp.setText(Tools.setPositiveSymbol(Tools.convertDoubleToInt(weatherDay.getTempMax())));
+            tvHumidity.setText(String.valueOf(weatherDay.getHumidity()).concat("%"));
+            tvPressure.setText(
+                    Tools.pascalToMillimetersOfMercury(String.valueOf(Math.round(weatherDay.getPressure())))
+                            .concat(getString(R.string.mm)));
+            tvWindSpeed.setText(weatherDay.getWindSpeed().concat(getString(R.string.wind_speed)));
+            String imageURL = weatherDay.getIconUrl();
+            Glide
+                    .with(this)
+                    .load(imageURL)
+                    .into(imWeather);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

@@ -17,10 +17,11 @@ public class Tools {
 
     /**
      * Convert from double to integer in string
+     *
      * @param s - double number in String
      * @return - integer in String
      */
-    public static String convertDoubleToInt(String s){
+    public static String convertDoubleToInt(String s) {
         return String.valueOf(Math.round(Double.valueOf(s)));
     }
 

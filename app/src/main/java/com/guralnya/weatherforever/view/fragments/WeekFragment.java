@@ -57,7 +57,7 @@ public class WeekFragment extends Fragment {
         mLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        setAdapter(mRealm.where(WeatherDayRealm.class).findAll(),getActivity());
+        setAdapter(mRealm.where(WeatherDayRealm.class).findAll(), getActivity());
 
         recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(mLinearLayoutManager);

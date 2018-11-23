@@ -67,7 +67,7 @@ public class SettingsManager {
         getPreferences(context).edit().putString(WAS_SET_CITY, city).apply();
     }
 
-    public static void resetLocation(Context context){
+    public static void resetLocation(Context context) {
         setCountry(context, "");
         setCity(context, "");
     }
