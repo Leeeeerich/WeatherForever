@@ -19,14 +19,18 @@ import com.guralnya.weatherforever.view.adapters.WeekFragmentRealmAdapter;
 
 import java.util.Objects;
 
+import io.realm.OrderedCollectionChangeSet;
 import io.realm.OrderedRealmCollection;
+import io.realm.OrderedRealmCollectionChangeListener;
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class WeekFragment extends Fragment {
 
     private RecyclerView.Adapter mAdapter;
 
     private Realm mRealm;
+    private RealmResults<WeatherDayRealm> mWeatherDayRealms;
 
     private static WeekFragment pInstance;
 
@@ -57,6 +61,14 @@ public class WeekFragment extends Fragment {
         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
         mLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        mWeatherDayRealms = mRealm.where(WeatherDayRealm.class).findAll();
+        mWeatherDayRealms.addChangeListener(new OrderedRealmCollectionChangeListener<RealmResults<WeatherDayRealm>>() {
+            @Override
+            public void onChange(RealmResults<WeatherDayRealm> weatherDayRealms, OrderedCollectionChangeSet changeSet) {
+                mAdapter.notifyDataSetChanged();
+            }
+        });
 
         setAdapter(mRealm.where(WeatherDayRealm.class).findAll(), getActivity());
 

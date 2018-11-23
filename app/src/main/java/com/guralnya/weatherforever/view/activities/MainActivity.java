@@ -118,15 +118,4 @@ public class MainActivity extends AppCompatActivity
         intent.putExtra(Constants.TIME_STAMP, timeStamp);
         startActivity(intent);
     }
-
-    public Drawable loadImageFromAsset() {
-        try {
-            InputStream ims = getAssets().open("logo.png");
-            Log.e(getClass().getName(), "Image");
-            return Drawable.createFromStream(ims, null);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-    }
 }

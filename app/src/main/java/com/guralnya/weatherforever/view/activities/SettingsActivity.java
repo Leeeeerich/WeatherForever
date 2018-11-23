@@ -270,7 +270,7 @@ public class SettingsActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent,
                                        View itemSelected, int selectedItemPosition, long selectedId) {
 
-                SettingsManager.setCountry(getBaseContext(), countries.get(selectedItemPosition).getCountryIso());
+                //SettingsManager.setCountry(getBaseContext(), countries.get(selectedItemPosition).getCountryIso());
                 Log.i(getClass().getName(), "Checked = " + mSpinner.getSelectedItem());
             }
 
