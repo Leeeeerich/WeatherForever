@@ -14,6 +14,7 @@ import com.guralnya.weatherforever.R;
 import com.guralnya.weatherforever.model.objects.database_realm.WeatherDayRealm;
 import com.guralnya.weatherforever.utils.Constants;
 import com.guralnya.weatherforever.view.utils.Tools;
+import com.guralnya.weatherforever.view.utils.WeatherIconsDrawable;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -76,10 +77,6 @@ public class DailyActivity extends AppCompatActivity {
                 Tools.pascalToMillimetersOfMercury(weatherDayRealm.getPressure())
                         .concat(getString(R.string.mm)));
         tvWindSpeed.setText(weatherDayRealm.getWindSpeed().concat(getString(R.string.wind_speed)));
-        String imageURL = weatherDayRealm.getIconUrl();
-        Glide
-                .with(this)
-                .load(imageURL)
-                .into(imWeather);
+        imWeather.setImageDrawable(WeatherIconsDrawable.getIcWeather(weatherDayRealm.getIcon()));
     }
 }

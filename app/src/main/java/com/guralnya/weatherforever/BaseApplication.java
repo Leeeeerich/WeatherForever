@@ -6,11 +6,8 @@ import android.view.Gravity;
 import android.widget.Toast;
 
 import com.guralnya.weatherforever.model.repository.DownloadCities;
-import com.guralnya.weatherforever.model.repository.DownloadWeather;
 import com.guralnya.weatherforever.model.repository.Repository;
-import com.guralnya.weatherforever.model.repository.SessionRepository;
-import com.guralnya.weatherforever.model.utils.Tools;
-import com.guralnya.weatherforever.utils.Constants;
+import com.guralnya.weatherforever.utils.Tools;
 import com.guralnya.weatherforever.utils.SettingsManager;
 
 import io.realm.Realm;
@@ -30,7 +27,8 @@ public class BaseApplication extends Application {
         RealmConfiguration config = new RealmConfiguration.Builder().name("weather.realm").build();
         Realm.setDefaultConfiguration(config);
 
-        //Realm.deleteRealm(config);
+        Realm.deleteRealm(config);
+        SettingsManager.resetLocation(getBaseContext());
 
         if(Tools.hasConnection(context)) {
             if (SettingsManager.getUpdateStartUp(getBaseContext())) {
@@ -45,7 +43,7 @@ public class BaseApplication extends Application {
             }
         } else {
             Toast toast = Toast.makeText(getApplicationContext(),
-                    getString(R.string.not_connection),
+                    getString(R.string.no_connection),
                     Toast.LENGTH_LONG);
             toast.setGravity(Gravity.BOTTOM, 0, 0);
             toast.show();

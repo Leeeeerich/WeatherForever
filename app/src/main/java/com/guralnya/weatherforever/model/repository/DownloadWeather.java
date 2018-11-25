@@ -6,8 +6,8 @@ import com.guralnya.weatherforever.model.client.WeatherAPI;
 import com.guralnya.weatherforever.model.objects.WeatherDay;
 import com.guralnya.weatherforever.model.objects.WeatherWeek;
 import com.guralnya.weatherforever.model.objects.database_realm.WeatherDayRealm;
-import com.guralnya.weatherforever.model.utils.Tools;
 import com.guralnya.weatherforever.utils.Constants;
+import com.guralnya.weatherforever.utils.Tools;
 
 import java.util.List;
 
@@ -103,11 +103,11 @@ public class DownloadWeather {
             @Override
             public void onResponse(Call<WeatherWeek> call, Response<WeatherWeek> response) {
                 Log.e(getClass().getName(), "onResponse");
-                try {
-                    List<WeatherDay> data = response.body().getItems();
-                    addOrUpdateWeatherWeekRep(Tools.hourlyForecastConvertToDaily(data));
-                } catch (Exception e) {
-                }
+
+                List<WeatherDay> data = response.body().getItems();
+                Log.e("qwerty", "City = " + data.get(0).getCity() + "\nicon = " + data.get(0).getIcon());
+                addOrUpdateWeatherWeekRep(Tools.hourlyForecastConvertToDaily(data));
+
             }
 
             @Override

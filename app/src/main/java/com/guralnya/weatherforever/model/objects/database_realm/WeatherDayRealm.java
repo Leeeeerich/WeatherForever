@@ -11,6 +11,7 @@ public class WeatherDayRealm extends RealmObject {
     private String mHumidity;
     private String mWindSpeed;
     private String mCity;
+    private String mIcon;
     private String mIconUrl;
 
     @PrimaryKey
@@ -24,7 +25,7 @@ public class WeatherDayRealm extends RealmObject {
                            String humidity,
                            String windSpeed,
                            String city,
-                           String iconUrl,
+                           String icon, String iconUrl,
                            long timeStamp) {
         mMinTemperature = minTemperature;
         mMaxTemperature = maxTemperature;
@@ -32,6 +33,7 @@ public class WeatherDayRealm extends RealmObject {
         mHumidity = humidity;
         mWindSpeed = windSpeed;
         mCity = city;
+        mIcon = icon;
         mIconUrl = iconUrl;
         mTimeStamp = timeStamp;
     }
@@ -98,5 +100,13 @@ public class WeatherDayRealm extends RealmObject {
 
     public void setMaxTemperature(String maxTemperature) {
         mMaxTemperature = maxTemperature;
+    }
+
+    public String getIcon() {
+        return mIcon;
+    }
+
+    public void setIcon(String icon) {
+        mIcon = icon;
     }
 }

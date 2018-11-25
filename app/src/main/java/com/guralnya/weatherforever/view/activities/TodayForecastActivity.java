@@ -8,12 +8,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.guralnya.weatherforever.R;
 import com.guralnya.weatherforever.model.objects.WeatherDay;
 import com.guralnya.weatherforever.presenters.ITodayForecastPresenter;
 import com.guralnya.weatherforever.presenters.TodayForecastPresenter;
 import com.guralnya.weatherforever.view.utils.Tools;
+import com.guralnya.weatherforever.view.utils.WeatherIconsDrawable;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,21 +37,23 @@ public class TodayForecastActivity extends AppCompatActivity implements ITodayFo
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         TodayForecastPresenter.getInstance().setITodayForecastListener(this);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_today);
+        setContentView(R.layout.activity_daily);
         ButterKnife.bind(this);
 
         TodayForecastPresenter.getInstance().getTodayForecast();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onBackPressed();
+                }
+            });
+        }
     }
 
     private void initView(WeatherDay weatherDay) {
@@ -63,11 +65,7 @@ public class TodayForecastActivity extends AppCompatActivity implements ITodayFo
                     Tools.pascalToMillimetersOfMercury(String.valueOf(Math.round(weatherDay.getPressure())))
                             .concat(getString(R.string.mm)));
             tvWindSpeed.setText(weatherDay.getWindSpeed().concat(getString(R.string.wind_speed)));
-            String imageURL = weatherDay.getIconUrl();
-            Glide
-                    .with(this)
-                    .load(imageURL)
-                    .into(imWeather);
+            imWeather.setImageDrawable(WeatherIconsDrawable.getIcWeather(weatherDay.getIcon()));
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -1,9 +1,8 @@
-package com.guralnya.weatherforever.model.utils;
+package com.guralnya.weatherforever.utils;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.util.Log;
 
 import com.guralnya.weatherforever.model.objects.WeatherDay;
 import com.guralnya.weatherforever.model.objects.database_realm.WeatherDayRealm;
@@ -23,7 +22,6 @@ public class Tools {
         int humidity = 0;
         int pressure = 0;
         for (WeatherDay weatherDay : weatherDayList) {
-
             if (minTemp > weatherDay.getTemp()) minTemp = weatherDay.getTemp();
             if (maxTemp < weatherDay.getTemp()) maxTemp = weatherDay.getTemp();
 
@@ -40,6 +38,7 @@ public class Tools {
                         String.valueOf(humidity),
                         weatherDay.getWindSpeed(),
                         weatherDay.getCity(),
+                        weatherDay.getIcon(),
                         weatherDay.getIconUrl(),
                         weatherDay.getTimestamp() - 3600
                 );

@@ -17,6 +17,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="#48ffffff"
+            android:padding="25dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guideline3"
             app:layout_constraintStart_toStartOf="parent"

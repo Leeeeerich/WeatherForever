@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.guralnya.weatherforever.R;
 import com.guralnya.weatherforever.model.objects.database_realm.WeatherDayRealm;
 import com.guralnya.weatherforever.view.utils.Tools;
+import com.guralnya.weatherforever.view.utils.WeatherIconsDrawable;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -73,11 +74,12 @@ public class WeekFragmentRealmAdapter extends RealmRecyclerViewAdapter<WeatherDa
         LayerDrawable layerDrawable = (LayerDrawable) mContext.getDrawable(R.drawable.colors_card);
         myViewHolder.mCardView.setBackground(layerDrawable.getDrawable(((int) (Math.random() * 10))));
 
-        String imageURL = item.getIconUrl();
+        myViewHolder.mWeather.setImageDrawable(WeatherIconsDrawable.getIcWeather(item.getIcon()));
+     /*   String imageURL = item.getIconUrl();
         Glide
                 .with(mContext)
                 .load(imageURL)
-                .into(myViewHolder.mWeather);
+                .into(myViewHolder.mWeather);*/
 
         myViewHolder.mCardView.setOnClickListener(new View.OnClickListener() {
             @Override

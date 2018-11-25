@@ -15,7 +15,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioGroup;
@@ -34,11 +33,8 @@ import com.guralnya.weatherforever.utils.Constants;
 import com.guralnya.weatherforever.utils.SettingsManager;
 import com.guralnya.weatherforever.view.adapters.SpinnerCountriesAdapter;
 
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 
@@ -58,6 +54,8 @@ public class SettingsActivity extends AppCompatActivity {
     Spinner mSpinner;
     @BindView(R.id.etSetCity)
     EditText mSetCity;
+    //@BindView(R.id.tvReload)
+    TextView tvReload;
 
     private LocationManager mLocationManager;
 
@@ -67,17 +65,20 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.fragment_settings);
 
         ButterKnife.bind(this);
+        tvReload = findViewById(R.id.tvReload);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onBackPressed();
+                }
+            });
+        }
 
         initView();
         DownloadWeather.setIDownloadWeatherListener(new IDownloadWeather() {
@@ -89,6 +90,7 @@ public class SettingsActivity extends AppCompatActivity {
                     tv.setText(weatherDay.getCity());
                     findViewById(R.id.progressBar).setVisibility(View.GONE);
                 } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         });
@@ -152,24 +154,36 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             }
         });
+
+        tvReload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SettingsManager.setCountry(getBaseContext(), ((CountriesRealm) mSpinner.getSelectedItem()).getCountryIso());
+                if (mSetCity != null && !mSetCity.getText().toString().equals("") && !mSetCity.getText().toString().equals(" "))
+                    SettingsManager.setCity(getBaseContext(), mSetCity.getText().toString());
+            }
+        });
     }
 
     private void chooseLocation() {
         if (SettingsManager.getLocationSelection(this) == Constants.MANUAL_LOCATION) {
             mSpinner.setVisibility(View.VISIBLE);
             mSetCity.setVisibility(View.VISIBLE);
+            tvReload.setVisibility(View.VISIBLE);
             try {
                 findViewById(R.id.tvCityByPosition).setVisibility(View.GONE);
                 findViewById(R.id.progressBar).setVisibility(View.GONE);
             } catch (Exception e) {
+                e.printStackTrace();
             }
-
         } else {
             mSpinner.setVisibility(View.GONE);
             mSetCity.setVisibility(View.GONE);
+            tvReload.setVisibility(View.GONE);
             try {
                 findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
             } catch (Exception e) {
+                e.printStackTrace();
             }
             checkPermission();
         }
@@ -193,6 +207,7 @@ public class SettingsActivity extends AppCompatActivity {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             Log.i(getClass().getName(), "get the coordinates ");
             mLocationManager = (LocationManager) this.getSystemService(LOCATION_SERVICE);
+            assert mLocationManager != null;
             mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
                     1000 * 5, 0, locationListener);
             mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
@@ -203,13 +218,13 @@ public class SettingsActivity extends AppCompatActivity {
             SettingsManager.setLocationSelection(this, Constants.MANUAL_LOCATION);
             chooseLocation();
         }
-
     }
 
     private void getCityNameByLocation(double lat, double lon) {
         try {
             findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
         } catch (Exception e) {
+            e.printStackTrace();
         }
         DownloadWeather.getWeatherTodayByPosition(lat, lon);
     }
@@ -243,40 +258,20 @@ public class SettingsActivity extends AppCompatActivity {
         }
     };
 
-    private SpinnerCountriesAdapter getSpinnerAdapters(List<CountriesRealm> countriesRealmList) {
-        return new SpinnerCountriesAdapter(
-                this, android.R.layout.simple_spinner_item, countriesRealmList);
-    }
-
-    private List<CountriesRealm> getCountriesRealmList(Realm realm, RealmResults<CountriesRealm> countries) {
-        List<CountriesRealm> countriesRealmList = realm.copyFromRealm(countries);
-        return countriesRealmList;
-    }
-
     private void spinnerCountriesInit() {
-        final Realm realm = Realm.getDefaultInstance();
         final RealmResults<CountriesRealm> countries = Repository.getCountries();
+        final SpinnerCountriesAdapter adapter = new SpinnerCountriesAdapter(
+                this, android.R.layout.simple_spinner_item, countries);
 
-        mSpinner.setAdapter(getSpinnerAdapters(getCountriesRealmList(realm, countries)));
-
-        countries.addChangeListener(new RealmChangeListener<RealmResults<CountriesRealm>>() {
-            @Override
-            public void onChange(RealmResults<CountriesRealm> countriesRealms) {
-                getSpinnerAdapters(getCountriesRealmList(realm, countriesRealms)).notifyDataSetChanged();
-            }
-        });
-
-        mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            public void onItemSelected(AdapterView<?> parent,
-                                       View itemSelected, int selectedItemPosition, long selectedId) {
-
-                //SettingsManager.setCountry(getBaseContext(), countries.get(selectedItemPosition).getCountryIso());
-                Log.i(getClass().getName(), "Checked = " + mSpinner.getSelectedItem());
-            }
-
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-
+        if (countries != null) {
+            mSpinner.setAdapter(adapter);
+            mSpinner.setPrompt(SettingsManager.getWasSetCountry(getBaseContext()));
+            countries.addChangeListener(new RealmChangeListener<RealmResults<CountriesRealm>>() {
+                @Override
+                public void onChange(@NonNull RealmResults<CountriesRealm> countriesRealms) {
+                    adapter.notifyDataSetChanged();
+                }
+            });
+        }
     }
 }

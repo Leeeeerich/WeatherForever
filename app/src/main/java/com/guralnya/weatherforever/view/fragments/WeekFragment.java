@@ -15,6 +15,9 @@ import android.view.ViewGroup;
 
 import com.guralnya.weatherforever.R;
 import com.guralnya.weatherforever.model.objects.database_realm.WeatherDayRealm;
+import com.guralnya.weatherforever.model.repository.Repository;
+import com.guralnya.weatherforever.utils.Constants;
+import com.guralnya.weatherforever.utils.SettingsManager;
 import com.guralnya.weatherforever.view.adapters.WeekFragmentRealmAdapter;
 
 import java.util.Objects;
@@ -27,13 +30,12 @@ import io.realm.RealmResults;
 
 public class WeekFragment extends Fragment {
 
-    private RecyclerView.Adapter mAdapter;
+    private static RecyclerView.Adapter mAdapter;
 
     private Realm mRealm;
     private RealmResults<WeatherDayRealm> mWeatherDayRealms;
 
     private static WeekFragment pInstance;
-
     public static WeekFragment getInstance() {
 
         if (pInstance == null) {
@@ -42,7 +44,7 @@ public class WeekFragment extends Fragment {
         return pInstance;
     }
 
-    private IWeekFragment mIWeekFragment;
+    private static IWeekFragment mIWeekFragment;
 
     public void setIWeekFragment(IWeekFragment IWeekFragment) {
         mIWeekFragment = IWeekFragment;
@@ -79,6 +81,7 @@ public class WeekFragment extends Fragment {
         scrollView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                Repository.getWeather(getActivity());
                 mAdapter.notifyDataSetChanged();
                 scrollView.setRefreshing(false);
             }
@@ -110,5 +113,12 @@ public class WeekFragment extends Fragment {
             mRealm.close();
             mRealm = null;
         }
+    }
+
+    private RealmResults<WeatherDayRealm> getForecastFromDb(){
+        if(SettingsManager.getLocationSelection(getActivity()) == Constants.MANUAL_LOCATION) {
+            return mRealm.where(WeatherDayRealm.class).equalTo("mCity", SettingsManager.getWasSetCity(getActivity())).findAllAsync();
+        }
+        return mRealm.where(WeatherDayRealm.class).findAll();
     }
 }
