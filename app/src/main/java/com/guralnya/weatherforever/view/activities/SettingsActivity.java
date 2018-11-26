@@ -146,6 +146,7 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+        mSetCity.setText(SettingsManager.getWasSetCity(getBaseContext()));
         mSetCity.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
