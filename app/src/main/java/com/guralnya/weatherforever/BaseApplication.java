@@ -27,8 +27,8 @@ public class BaseApplication extends Application {
         RealmConfiguration config = new RealmConfiguration.Builder().name("weather.realm").build();
         Realm.setDefaultConfiguration(config);
 
-        Realm.deleteRealm(config);
-        SettingsManager.resetLocation(getBaseContext());
+        //Realm.deleteRealm(config);
+        //SettingsManager.resetLocation(getBaseContext());
 
         if(Tools.hasConnection(context)) {
             if (SettingsManager.getUpdateStartUp(getBaseContext())) {

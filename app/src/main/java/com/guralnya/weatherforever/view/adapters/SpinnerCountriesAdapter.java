@@ -27,12 +27,8 @@ public class SpinnerCountriesAdapter extends ArrayAdapter<CountriesRealm> {
     @Override
     @NonNull
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-        return super.getView(position, convertView, parent);
-    }
-
-    @Override
-    public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
         View row = convertView;
+
         if (row == null) {
             LayoutInflater inflater = context.getLayoutInflater();
             row = inflater.inflate(R.layout.item_spinner_country, parent, false);
@@ -54,6 +50,11 @@ public class SpinnerCountriesAdapter extends ArrayAdapter<CountriesRealm> {
         }
 
         return row;
+    }
+
+    @Override
+    public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
+        return getView(position, convertView, parent);
     }
 
     private class ViewHolder {

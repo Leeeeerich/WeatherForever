@@ -7,74 +7,64 @@ import com.guralnya.weatherforever.R;
 
 public class WeatherIconsDrawable {
 
-    private static final Drawable icWeatherRain = BaseApplication.context.getDrawable(R.drawable.ic_weather_rain);
-    private static final Drawable icWeatherFewClouds = BaseApplication.context.getDrawable(R.drawable.ic_weather_few_clouds);
-    private static final Drawable icWeatherMist = BaseApplication.context.getDrawable(R.drawable.ic_weather_mist);
-    private static final Drawable icWeatherScattered = BaseApplication.context.getDrawable(R.drawable.ic_weather_scattered_clouds);
-    private static final Drawable icWeatherSnow = BaseApplication.context.getDrawable(R.drawable.ic_weather_snow);
-    private static final Drawable icWeatherSun = BaseApplication.context.getDrawable(R.drawable.ic_weather_sun);
-    private static final Drawable icWeatherThunderstorm = BaseApplication.context.getDrawable(R.drawable.ic_weather_thunderstorm);
-    private static final Drawable icWeatherShowerRain = BaseApplication.context.getDrawable(R.drawable.ic_weather_shower_rain);
-    private static final Drawable icWeatherDefault = BaseApplication.context.getDrawable(R.drawable.ic_weather_default);
-
     public static Drawable getIcWeather(String icon) {
         switch (icon) {
             case ("01d"): {
-                return icWeatherSun;
+                return BaseApplication.context.getDrawable(R.drawable.ic_weather_sun);
             }
             case ("01n"): {
-                return icWeatherSun;
+                return BaseApplication.context.getDrawable(R.drawable.ic_weather_sun);
             }
             case ("02d"): {
-                return icWeatherFewClouds;
+                return BaseApplication.context.getDrawable(R.drawable.ic_weather_few_clouds);
             }
             case ("02n"): {
-                return icWeatherFewClouds;
+                return BaseApplication.context.getDrawable(R.drawable.ic_weather_few_clouds);
             }
             case ("03d"): {
-                return icWeatherScattered;
+                return BaseApplication.context.getDrawable(R.drawable.ic_weather_scattered_clouds);
             }
             case ("03n"): {
-                return icWeatherScattered;
+                return BaseApplication.context.getDrawable(R.drawable.ic_weather_scattered_clouds);
             }
             case ("04n"): {
-                return icWeatherScattered;
+                return BaseApplication.context.getDrawable(R.drawable.ic_weather_scattered_clouds);
             }
             case ("04d"): {
-                return icWeatherScattered;
+                return BaseApplication.context.getDrawable(R.drawable.ic_weather_scattered_clouds);
             }
             case ("09d"): {
-                return icWeatherShowerRain;
+                return BaseApplication.context.getDrawable(R.drawable.ic_weather_shower_rain);
             }
             case ("09n"): {
-                return icWeatherShowerRain;
+                return BaseApplication.context.getDrawable(R.drawable.ic_weather_shower_rain);
             }
             case ("10d"): {
-                return icWeatherRain;
+                return BaseApplication.context.getDrawable(R.drawable.ic_weather_rain);
             }
             case ("10n"): {
-                return icWeatherRain;
+                return BaseApplication.context.getDrawable(R.drawable.ic_weather_rain);
             }
             case ("11d"): {
-                return icWeatherThunderstorm;
+                return BaseApplication.context.getDrawable(R.drawable.ic_weather_thunderstorm);
             }
             case ("11n"): {
-                return icWeatherThunderstorm;
+                return BaseApplication.context.getDrawable(R.drawable.ic_weather_thunderstorm);
             }
             case ("13d"): {
-                return icWeatherSnow;
+                return BaseApplication.context.getDrawable(R.drawable.ic_weather_snow);
             }
             case ("13n"): {
-                return icWeatherSnow;
+                return BaseApplication.context.getDrawable(R.drawable.ic_weather_snow);
             }
             case ("50n"): {
-                return icWeatherMist;
+                return BaseApplication.context.getDrawable(R.drawable.ic_weather_mist);
             }
             case ("50d"): {
-                return icWeatherMist;
+                return BaseApplication.context.getDrawable(R.drawable.ic_weather_mist);
             }
         }
-        return icWeatherDefault;
+        return BaseApplication.context.getDrawable(R.drawable.ic_weather_default);
     }
 
 }

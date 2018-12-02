@@ -30,7 +30,7 @@ import io.realm.RealmResults;
 
 public class WeekFragment extends Fragment {
 
-    private static RecyclerView.Adapter mAdapter;
+    private RecyclerView.Adapter mAdapter;
 
     private Realm mRealm;
     private RealmResults<WeatherDayRealm> mWeatherDayRealms;

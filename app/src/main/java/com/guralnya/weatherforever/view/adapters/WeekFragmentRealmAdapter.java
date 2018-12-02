@@ -61,8 +61,6 @@ public class WeekFragmentRealmAdapter extends RealmRecyclerViewAdapter<WeatherDa
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int position) {
         final WeatherDayRealm item = getItem(position);
 
-        Log.e(getClass().getName(), "City = " + item.getCity());
-
         SimpleDateFormat dataFormat = new SimpleDateFormat("EEEE', 'dd MMMM", Locale.getDefault());
         myViewHolder.mDate.setText(dataFormat.format(item.getTimeStamp() * 1000));
 
@@ -75,11 +73,6 @@ public class WeekFragmentRealmAdapter extends RealmRecyclerViewAdapter<WeatherDa
         myViewHolder.mCardView.setBackground(layerDrawable.getDrawable(((int) (Math.random() * 10))));
 
         myViewHolder.mWeather.setImageDrawable(WeatherIconsDrawable.getIcWeather(item.getIcon()));
-     /*   String imageURL = item.getIconUrl();
-        Glide
-                .with(mContext)
-                .load(imageURL)
-                .into(myViewHolder.mWeather);*/
 
         myViewHolder.mCardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,7 +82,7 @@ public class WeekFragmentRealmAdapter extends RealmRecyclerViewAdapter<WeatherDa
         });
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    class MyViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView mWeather;
         private TextView mDate;
@@ -97,7 +90,7 @@ public class WeekFragmentRealmAdapter extends RealmRecyclerViewAdapter<WeatherDa
         private TextView mHumidity;
         private CardView mCardView;
 
-        public MyViewHolder(@NonNull View itemView) {
+        MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
             mWeather = itemView.findViewById(R.id.imWeather);
